@@ -9,7 +9,6 @@ import {
   Flex,
   Heading,
   Image,
-  SimpleGrid,
   Text,
   VStack,
 } from "@chakra-ui/react";
@@ -124,6 +123,16 @@ export function Home() {
     autoplaySpeed: 3000,
   };
 
+  const largeSettings = {
+    dots: true,
+    infinite: true,
+    speed: 500,
+    slidesToShow: 6,
+    slidesToScroll: 1,
+    autoplay: true,
+    autoplaySpeed: 3000,
+  };
+
   const events = [
     {
       id: 1,
@@ -193,14 +202,18 @@ export function Home() {
     navigate(`/board/${storyId}`);
   };
 
+  const handleBannerClick = () => {
+    navigate("/event");
+  };
+
   return (
     <Box mt={10} bg="gray.50" p={4}>
       <VStack spacing={10} align="stretch">
         <Box>
           <Heading as="h2" size="xl" mb={4} ml={5} color="teal.700">
-            리뷰 많은 순 {/*지역별 유명 관광지 ex)서울-남산타워*/}
+            요즘 뜨는 장소
           </Heading>
-          <SimpleGrid columns={{ base: 1, md: 3 }} spacing={4}>
+          <Slider {...largeSettings}>
             {contents1.map((item, index) => (
               <TravelCard
                 key={index}
@@ -211,16 +224,15 @@ export function Home() {
                 description={item.overview ? item.overview : "설명(추가예정)"}
               />
             ))}
-          </SimpleGrid>
+          </Slider>
         </Box>
-
         <Divider />
 
         <Box>
           <Heading as="h2" size="xl" mb={4} ml={5} color="teal.700">
             {contents2Area} 추천 여행지
           </Heading>
-          <SimpleGrid columns={{ base: 1, md: 3 }} spacing={4}>
+          <Slider {...largeSettings}>
             {contents2.map((item, index) => (
               <TravelCard
                 key={index}
@@ -230,14 +242,13 @@ export function Home() {
                 description={item.overview}
               />
             ))}
-          </SimpleGrid>
+          </Slider>
         </Box>
-
         <Divider />
 
         <Box>
           <Heading as="h2" size="xl" mb={4} ml={5} color="teal.700">
-            스토리 {/*ex) 어느 지역or장소를 갔는데 그 곳이 어땠다~ 이런 소개글*/}
+            스토리
           </Heading>
           <Slider {...settings}>
             {stories.map((story) => (
@@ -271,56 +282,63 @@ export function Home() {
             ))}
           </Slider>
         </Box>
-
         <Divider />
 
-        <Box>
-          <Heading as="h2" size="xl" mb={4} ml={5} color="teal.700">
-            이벤트 {/*각 지역 기간별로 하는 행사나 그런 이벤트들 소개 */}
-          </Heading>
-          <SimpleGrid columns={{ base: 1, md: 4 }} spacing={6}>
-            {events.map((event) => (
-              <EventCard key={event.id} event={event} onClick={handleEventClick} />
-            ))}
-          </SimpleGrid>
+        {/* Banner Section */}
+        <Center w="100%">
+          <Box
+            w={{ base: "100%", md: "80%", lg: "1500px" }}
+            mt={8}
+            p={6}
+            bgImage="url('/image/banner-image.jpg')"
+            bgSize="cover"
+            bgPosition="center"
+            borderRadius="lg"
+            display="flex"
+            justifyContent="center"
+            alignItems="center"
+            height="200px"
+            color="white"
+            textAlign="center"
+          >
+            <VStack spacing={4}>
+              <Heading as="h2" size="lg">
+                (예정)
+              </Heading>
+              <Button colorScheme="teal" size="lg" onClick={handleBannerClick}>
+                More
+              </Button>
+            </VStack>
+          </Box>
+        </Center>
 
-          {selectedEvent && (
-            <Box
-              mt={8}
-              p={6}
-              maxW="xl"
-              mx="auto"
-              borderWidth="1px"
-              borderRadius="lg"
-              bg="white"
-              boxShadow="md"
-            >
-              <Center mb={4}>
-                <Image
-                  src={selectedEvent.imageUrl}
-                  alt={selectedEvent.title}
-                  borderRadius="md"
-                  boxShadow="sm"
-                />
-              </Center>
-              <VStack spacing={4} align="start">
-                <Heading as="h3" size="lg" color="teal.700">
-                  {selectedEvent.title}
-                </Heading>
-                <Text fontSize="md" color="gray.600">
-                  {selectedEvent.description}
-                </Text>
-                <Button
-                  onClick={() => setSelectedEvent(null)}
-                  colorScheme="teal"
-                  alignSelf="center"
-                >
-                  뒤로가기
-                </Button>
-              </VStack>
-            </Box>
-          )}
-        </Box>
+        {/* Banner Section2 */}
+        <Center w="100%">
+          <Box
+            w={{ base: "100%", md: "80%", lg: "1500px" }}
+            mt={8}
+            p={6}
+            bgImage="url('/image/banner-image.jpg')"
+            bgSize="cover"
+            bgPosition="center"
+            borderRadius="lg"
+            display="flex"
+            justifyContent="center"
+            alignItems="center"
+            height="200px"
+            color="white"
+            textAlign="center"
+          >
+            <VStack spacing={4}>
+              <Heading as="h2" size="lg">
+                (예정)
+              </Heading>
+              <Button colorScheme="teal" size="lg" onClick={handleBannerClick}>
+                More
+              </Button>
+            </VStack>
+          </Box>
+        </Center>
       </VStack>
 
       <Box mt={8}>

@@ -37,7 +37,7 @@ public interface HomeMapper {
                    ORDER BY avg.rating DESC
                    LIMIT 10) as popular
             ORDER BY RAND()
-            LIMIT 3;
+            LIMIT 6
             """)
     List<HomeContent> selectContentsByRating();
 
@@ -58,7 +58,7 @@ public interface HomeMapper {
                                 LIMIT 1) AS ar
                             ON recency.area_name = ar.name
             ORDER BY RAND()
-            LIMIT 3
+            LIMIT 6
             """)
     List<HomeContent> selectContentsByArea();
 }
