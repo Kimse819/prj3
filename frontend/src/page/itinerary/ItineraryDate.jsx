@@ -21,6 +21,7 @@ export function ItineraryDate() {
   const [endDate, setEndDate] = useState(null);
   const [name, setName] = useState("");
   const [isLoading, setIsLoading] = useState(true);
+  const mode = useColorModeValue("white", "gray.700");
 
   const start =
     startDate !== null ? moment(startDate).format("YYYY-MM-DD") : "";
@@ -81,7 +82,7 @@ export function ItineraryDate() {
       borderWidth={1}
       borderRadius="lg"
       boxShadow="lg"
-      bg={useColorModeValue("white", "gray.700")}
+      bg={mode}
     >
       <Heading textAlign="center">새 일정</Heading>
       <Text textAlign="center" fontWeight="bold" mt={2}>

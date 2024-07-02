@@ -1218,7 +1218,7 @@ public class TourService {
         if (!mapper.selectInfo1ByContentId(id).isEmpty()) {
             mapper.deleteInfo1(id);
         }
-        if (!mapper.selectImageByContentId(id).isEmpty()) {
+        if (!mapper.selectImageIdByContentId(id).isEmpty()) {
             removeImage(id);
         }
         if (!mapper.selectContentById(id).isEmpty()) {
@@ -1261,5 +1261,9 @@ public class TourService {
 
     public void removeImage(Integer contentId) {
         mapper.deleteImage(contentId);
+    }
+
+    public List<Image> getImage(Integer id) {
+        return mapper.selectImageByContentId(id);
     }
 }

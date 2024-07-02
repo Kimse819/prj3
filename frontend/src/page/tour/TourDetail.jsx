@@ -32,6 +32,7 @@ export function TourDetail() {
   const [info, setInfo] = useState([]);
   const [introInfo, setIntroInfo] = useState(null);
   const [info2, setInfo2] = useState(null);
+  const [images, setImages] = useState([]);
   const [showAll, setShowAll] = useState(false);
   const [showBtnMore, setShowBtnMore] = useState(false);
   const { onClose, onOpen, isOpen } = useDisclosure();
@@ -66,6 +67,13 @@ export function TourDetail() {
       .get(`/api/tour/${id}/intro`)
       .then((res) => {
         setIntroInfo(res.data);
+      })
+      .catch();
+
+    axios
+      .get(`/api/tour/${id}/image`)
+      .then((res) => {
+        setImages(res.data);
       })
       .catch();
   }, [info.overview]);
@@ -112,6 +120,23 @@ export function TourDetail() {
           _hover={{ transform: "scale(1.05)" }}
         />
       </Box>
+      {/* TODO: 갤러리 형식으로 */}
+      {/* 큰 이미지 */}
+      <Flex>
+        <Image src={info.firstImage1} />
+        {images.map((item) => (
+          <Image key={item.id} src={item.originalUrl} />
+        ))}
+      </Flex>
+
+      {/* 작은 이미지 */}
+      <Flex>
+        <Image src={info.firstImage2} />
+        {images.map((item) => (
+          <Image key={item.id} src={item.smallUrl} />
+        ))}
+      </Flex>
+
       <Box mb={6} p={4} borderWidth="1px" borderRadius="lg" boxShadow="sm">
         <Heading size="md" mb={4} color="teal.700">
           개요

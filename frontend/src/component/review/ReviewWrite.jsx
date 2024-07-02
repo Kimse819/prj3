@@ -1,16 +1,18 @@
 import { useState } from "react";
 import {
+  Box,
   Button,
   Flex,
+  Heading,
   Radio,
   RadioGroup,
   Stack,
   Textarea,
   useToast,
-  Box,
-  Heading,
 } from "@chakra-ui/react";
 import axios from "axios";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faStar } from "@fortawesome/free-solid-svg-icons";
 
 export function ReviewWrite({ contentId, isSending, setIsSending }) {
   const [review, setReview] = useState("");
@@ -40,6 +42,14 @@ export function ReviewWrite({ contentId, isSending, setIsSending }) {
       });
   }
 
+  function printStars(index) {
+    const stars = [];
+    for (let i = 0; i < index; i++) {
+      stars.push(<FontAwesomeIcon icon={faStar} color={"orange"} />);
+    }
+    return stars;
+  }
+
   return (
     <Box p={6} bg="white" borderRadius="md" boxShadow="md">
       <Heading as="h3" size="lg" mb={4} textAlign="center" color="teal.500">
@@ -49,8 +59,13 @@ export function ReviewWrite({ contentId, isSending, setIsSending }) {
         <RadioGroup defaultValue="5" onChange={setRating}>
           <Stack spacing={4} direction="row" justify="center">
             {[1, 2, 3, 4, 5].map((index) => (
-              <Radio key={index} value={index.toString()} size="lg" colorScheme="teal">
-                {index}
+              <Radio
+                key={index}
+                value={index.toString()}
+                size="lg"
+                colorScheme="teal"
+              >
+                {printStars(index)}
               </Radio>
             ))}
           </Stack>

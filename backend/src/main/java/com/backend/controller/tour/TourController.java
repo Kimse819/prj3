@@ -236,4 +236,9 @@ public class TourController {
 
         return null;
     }
+
+    @GetMapping("{id}/image")
+    public List<Image> getImage(@PathVariable Integer id) {
+        return service.getImage(id);
+    }
 }
