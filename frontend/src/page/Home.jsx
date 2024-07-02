@@ -21,7 +21,6 @@ import axios from "axios";
 export function Home() {
   const [contents1, setContents1] = useState([]);
   const [contents2, setContents2] = useState([]);
-  const [selectedStory, setSelectedStory] = useState(null);
   const [selectedEvent, setSelectedEvent] = useState(null);
 
   const navigate = useNavigate();
@@ -75,28 +74,6 @@ export function Home() {
     </Box>
   );
 
-  const ReviewCard = ({ title, description, id }) => (
-    <Box
-      borderWidth="1px"
-      borderRadius="lg"
-      cursor={"pointer"}
-      onClick={() => navigate(`/board/${id}`)}
-      overflow="hidden"
-      _hover={{ shadow: "lg", transform: "scale(1.05)", transition: "0.3s" }}
-      mx={5}
-      bg="white"
-    >
-      <Box p={4}>
-        <Heading as="h3" size="md" color="teal.600">
-          {title}
-        </Heading>
-        <Text mt={2} color="gray.600">
-          {description}
-        </Text>
-      </Box>
-    </Box>
-  );
-
   useEffect(() => {
     axios.get("/api/home/contents").then((res) => {
       setContents1(res.data);
@@ -134,7 +111,7 @@ export function Home() {
       title: "광명동굴 패키지",
       description: "판매가 : 400,000",
       imageUrl: "/image/event-image3.jpg",
-    }
+    },
   ];
 
   const stories = [
@@ -182,8 +159,7 @@ export function Home() {
   };
 
   const handleStoryClick = (storyId) => {
-    const story = stories.find((s) => s.id === storyId);
-    setSelectedStory(story);
+    navigate(`/board/${storyId}`);
   };
 
   return (
@@ -191,7 +167,7 @@ export function Home() {
       <VStack spacing={10} align="stretch">
         <Box>
           <Heading as="h2" size="xl" mb={4} ml={5} color="teal.700">
-            가볼만한곳
+            리뷰 많은 순 {/*지역별 유명 관광지 ex)서울-남산타워*/}
           </Heading>
           <SimpleGrid columns={{ base: 1, md: 3 }} spacing={4}>
             {contents1.map((item, index) => (
@@ -210,7 +186,7 @@ export function Home() {
 
         <Box>
           <Heading as="h2" size="xl" mb={4} ml={5} color="teal.700">
-            추천 여행지
+            추천 여행지{/*여행지-서울,부산.. */}
           </Heading>
           <SimpleGrid columns={{ base: 1, md: 3 }} spacing={4}>
             {contents2.map((item, index) => (
@@ -224,89 +200,69 @@ export function Home() {
             ))}
           </SimpleGrid>
         </Box>
+
         <Divider />
 
         <Box>
           <Heading as="h2" size="xl" mb={4} ml={5} color="teal.700">
-            최근 리뷰
+            스토리 {/*ex) 어느 지역or장소를 갔는데 그 곳이 어땠다~ 이런 소개글*/}
           </Heading>
-          <SimpleGrid columns={{ base: 1, md: 3 }} spacing={4}>
-            <ReviewCard title="리뷰 1" description="리뷰 내용 1" id={1} />
-            <ReviewCard title="리뷰 2" description="리뷰 내용 2" id={2} />
-            <ReviewCard title="리뷰 3" description="리뷰 내용 3" id={3} />
-          </SimpleGrid>
-        </Box>
-        <Divider />
-
-        <Box>
-          <Heading as="h2" size="xl" mb={4} ml={5} color="teal.700">
-            스토리
-          </Heading>
-          {selectedStory ? (
-            <Box p={4} bg="white" borderRadius="lg" boxShadow="lg">
-              <Button mb={4} onClick={() => setSelectedStory(null)}>
-                뒤로가기
-              </Button>
-              <AspectRatio ratio={16 / 9}>
-                <Image src={selectedStory.imageUrl} alt={selectedStory.title} />
-              </AspectRatio>
-              <Box mt={4}>
-                <Heading as="h3" size="lg" color="teal.700">
-                  {selectedStory.title}
-                </Heading>
-                <Text mt={2} color="gray.600">
-                  {selectedStory.description}
-                </Text>
-              </Box>
-            </Box>
-          ) : (
-            <Slider {...settings}>
-              {stories.map((story) => (
-                <Box
-                  key={story.id}
-                  borderWidth="1px"
-                  borderRadius="lg"
-                  overflow="hidden"
-                  bg="white"
-                  mx={2} // Margin between slides
-                  cursor="pointer"
-                  onClick={() => handleStoryClick(story.id)}
-                >
-                  <AspectRatio ratio={16 / 9}>
-                    <Image src={story.imageUrl} alt={story.title} />
-                  </AspectRatio>
-                  <Box p={4}>
-                    <Heading as="h3" size="md" color="teal.600">
-                      {story.title}
-                    </Heading>
-                    <Text mt={2} color="gray.600">
-                      {story.description}
-                    </Text>
-                  </Box>
+          <Slider {...settings}>
+            {stories.map((story) => (
+              <Box
+                key={story.id}
+                borderWidth="1px"
+                borderRadius="lg"
+                overflow="hidden"
+                bg="white"
+                cursor="pointer"
+                onClick={() => handleStoryClick(story.id)}
+                _hover={{
+                  shadow: "lg",
+                  transform: "scale(1.05)",
+                  transition: "0.3s",
+                }}
+                mx={2}
+              >
+                <AspectRatio ratio={16 / 9}>
+                  <Image src={story.imageUrl} alt={story.title} />
+                </AspectRatio>
+                <Box p={4}>
+                  <Heading as="h3" size="md" color="teal.600">
+                    {story.title}
+                  </Heading>
+                  <Text mt={2} color="gray.600">
+                    {story.description}
+                  </Text>
                 </Box>
-              ))}
-            </Slider>
-          )}
+              </Box>
+            ))}
+          </Slider>
         </Box>
 
         <Divider />
 
         <Box>
           <Heading as="h2" size="xl" mb={4} ml={5} color="teal.700">
-            이벤트
+            이벤트 {/*각 지역 기간별로 하는 행사나 그런 이벤트들 소개 */}
           </Heading>
-          <SimpleGrid columns={{ base: 1, md: 3 }} spacing={6}>
+          <SimpleGrid columns={{ base: 1, md: 4 }} spacing={6}>
             {events.map((event) => (
-              <EventCard
-                key={event.id}
-                event={event}
-                onClick={handleEventClick}
-              />
+              <EventCard key={event.id} event={event} onClick={handleEventClick} />
             ))}
           </SimpleGrid>
 
           {selectedEvent && (
-            <Box mt={8} p={6} maxW="xl" mx="auto" borderWidth="1px" borderRadius="lg" bg="white" boxShadow="md">
+            <Box
+              mt={8}
+              p={6}
+              maxW="xl"
+              mx="auto"
+              borderWidth="1px"
+              borderRadius="lg"
+              bg="white"
+              boxShadow="md"
+            >
               <Center mb={4}>
                 <Image
                   src={selectedEvent.imageUrl}
@@ -322,7 +278,11 @@ export function Home() {
                 <Text fontSize="md" color="gray.600">
                   {selectedEvent.description}
                 </Text>
-                <Button onClick={() => setSelectedEvent(null)} colorScheme="teal" alignSelf="center">
+                <Button
+                  onClick={() => setSelectedEvent(null)}
+                  colorScheme="teal"
+                  alignSelf="center"
+                >
                   뒤로가기
                 </Button>
               </VStack>

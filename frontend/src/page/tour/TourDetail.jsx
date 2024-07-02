@@ -95,13 +95,19 @@ export function TourDetail() {
       <Heading size="lg" mb={6} color="teal.700">
         {info.title}
       </Heading>
-      <Box mb={6} boxShadow="md" borderRadius="lg" overflow="hidden">
+      <Box
+        mb={6}
+        boxShadow="md"
+        borderRadius="lg"
+        overflow="hidden"
+        height={{ base: "400px", md: "500px", lg: "500px" }}
+      >
         <Image
           src={info.firstImage1}
           borderRadius="lg"
-          maxHeight="600px"
-          objectFit="cover"
+          height="100%"
           width="100%"
+          objectFit="contain"
           transition="transform 0.3s"
           _hover={{ transform: "scale(1.05)" }}
         />
