@@ -355,7 +355,7 @@ export function TourList() {
               >
                 <Box height="190px" display="flex" alignItems="center" justifyContent="center">
                   {item.firstImage1 ? (
-                    <Image objectFit="cover" src={item.firstImage1} />
+                    <Image objectFit="cover" width="100%" height="100%" src={item.firstImage1} />
                   ) : (
                     <Text>이미지 없음</Text>
                   )}
