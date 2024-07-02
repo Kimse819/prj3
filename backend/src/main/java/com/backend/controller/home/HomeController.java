@@ -19,4 +19,14 @@ public class HomeController {
     public List<HomeContent> getContents() {
         return service.getContents();
     }
+
+    @GetMapping("contents/popular")
+    public List<HomeContent> getPopularContents() {
+        return service.getPopularContents();
+    }
+
+    @GetMapping("contents/area")
+    public List<HomeContent> getContentsByArea() {
+        return service.getContentsByArea();
+    }
 }

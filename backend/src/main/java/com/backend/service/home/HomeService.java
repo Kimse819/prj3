@@ -17,4 +17,12 @@ public class HomeService {
     public List<HomeContent> getContents() {
         return mapper.selectRecentContents();
     }
+
+    public List<HomeContent> getPopularContents() {
+        return mapper.selectContentsByRating();
+    }
+
+    public List<HomeContent> getContentsByArea() {
+        return mapper.selectContentsByArea();
+    }
 }
