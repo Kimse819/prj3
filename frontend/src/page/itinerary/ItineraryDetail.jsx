@@ -96,7 +96,6 @@ export function ItineraryDetail() {
   };
 
   useEffect(() => {
-    console.log(days);
     if (days < 1 || isNaN(days)) {
       alert("여행 날짜를 설정해주세요");
       navigate("/itinerary/new");
@@ -341,7 +340,7 @@ export function ItineraryDetail() {
                 mt={5}
                 mx={10}
               >
-                <Text>장소명</Text>
+                <Text>장소</Text>
                 <Text>메모</Text>
                 <Text>방문시각</Text>
                 <Text></Text>

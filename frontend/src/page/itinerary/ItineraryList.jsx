@@ -54,7 +54,9 @@ export function ItineraryList() {
   return (
     <Box>
       <Center mt={10}>
-        <Button onClick={() => navigate(`/itinerary/new`)}>새 일정</Button>
+        <Button colorScheme="blue" onClick={() => navigate(`/itinerary/new`)}>
+          새 일정
+        </Button>
       </Center>
       <Center>
         <Table
