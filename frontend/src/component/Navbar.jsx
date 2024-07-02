@@ -103,7 +103,9 @@ export function Navbar() {
           <Show below={"lg"}>
             <FontAwesomeIcon icon={faHouse} />
           </Show>
-          <Hide below={"lg"}>Travel Place</Hide>
+          <Hide below={"lg"}>
+            Travel Place
+          </Hide>
         </Center>
 
         <Center ml={4} mb={5}>
