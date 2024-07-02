@@ -4,7 +4,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import {
   Box,
   Button,
-  Center,
+  Center, Divider,
   Flex,
   Heading,
   Image,
@@ -721,34 +721,49 @@ export function ItineraryView() {
         </ModalContent>
       </Modal>
       {/* 상세보기 모달 */}
-      <Modal
-        isOpen={isOpenDetail}
-        onClose={onCloseDetail}
-        scrollBehavior="inside"
-        size="5xl"
-      >
+      <Modal isOpen={isOpenDetail} onClose={onCloseDetail} scrollBehavior="inside" size="5xl">
         <ModalOverlay />
         <ModalContent>
-          <ModalHeader></ModalHeader>
+          <ModalHeader />
           <ModalCloseButton />
           <ModalBody>
-            <Box
-              mt={4}
-              border="1px solid black"
-              mx={{
-                base: 0,
-                lg: 10,
-              }}
-            >
-              <Heading>{info.title}</Heading>
-              <Box p={4} mt={"10px"} border="1px solid black">
-                (사진..)
-                <Image src={info.firstImage1} />
+            <Box mt={4} mx={{ base: 4, lg: 10 }} p={6} borderRadius="lg" boxShadow="2xl" bg="white">
+              <Heading textAlign="center" mb={8} color="teal.600" fontSize="2xl">
+                {info.title}
+              </Heading>
+
+              <Box
+                mb={8}
+                p={4}
+                borderRadius="lg"
+                boxShadow="lg"
+                bg="gray.100"
+                display="flex"
+                justifyContent="center"
+                alignItems="center"
+                overflow="hidden"
+                maxH="300px"
+                w="100%"
+              >
+                {info.firstImage1 ? (
+                  <Image
+                    src={info.firstImage1}
+                    alt="Main"
+                    borderRadius="lg"
+                    objectFit="cover"
+                    maxH="100%"
+                    w="auto"
+                  />
+                ) : (
+                  <Text>이미지 없음</Text>
+                )}
               </Box>
 
-              <Box p={4} mt={"10px"} border="1px solid black">
-                (정보..)
-                <Table>
+              <Box mb={8} p={6} borderRadius="lg" boxShadow="lg" bg="gray.100">
+                <Text fontSize="lg" fontWeight="bold" mb={4}>
+                  정보
+                </Text>
+                <Table variant="simple">
                   <Tbody>
                     <Tr>
                       <Th>우편번호</Th>
@@ -764,79 +779,90 @@ export function ItineraryView() {
                     </Tr>
                     <Tr>
                       <Th>홈페이지</Th>
-                      <Td
-                        dangerouslySetInnerHTML={{ __html: info.homepage }}
-                      ></Td>
+                      <Td dangerouslySetInnerHTML={{ __html: info.homepage }} />
                     </Tr>
                     <Tr>
                       <Th>위치</Th>
                       <Td>
                         <Map
                           center={{ lat: info.mapy, lng: info.mapx }}
-                          style={{
-                            width: "400px",
-                            height: "350px",
-                            border: "1px solid black",
-                            borderRadius: "10px",
-                          }}
+                          style={{ width: "100%", height: "350px", borderRadius: "10px" }}
                           level={6}
                         >
-                          <MapMarker
-                            style={{ border: "tranparent" }}
-                            position={{ lat: info.mapy, lng: info.mapx }}
-                          ></MapMarker>
+                          <MapMarker position={{ lat: info.mapy, lng: info.mapx }} />
                         </Map>
                       </Td>
                     </Tr>
                   </Tbody>
                 </Table>
               </Box>
-              {introInfo !== null && (
-                <Box p={4} mt={"10px"} border="1px solid black">
-                  (소개정보..)
-                  <Table>
+
+              {introInfo && (
+                <Box mb={8} p={6} borderRadius="lg" boxShadow="lg" bg="gray.100">
+                  <Text fontSize="lg" fontWeight="bold" mb={4}>
+                    소개정보
+                  </Text>
+                  <Table variant="simple">
                     <Tbody>
-                      {introInfo.map((item) => (
-                        <Tr key={item.number}>
-                          <Th>{item.infoName}</Th>
-                          <Td>
-                            <Text
-                              dangerouslySetInnerHTML={{
-                                __html: item.infoText,
-                              }}
-                            />
-                          </Td>
-                        </Tr>
+                      {introInfo.map((item, index) => (
+                        <React.Fragment key={item.number}>
+                          <Tr>
+                            <Th>{item.infoName}</Th>
+                            <Td dangerouslySetInnerHTML={{ __html: item.infoText }} />
+                          </Tr>
+                          {index < introInfo.length - 1 && (
+                            <Tr>
+                              <Td colSpan={2}>
+                                <Divider my={2} borderColor="gray.300" />
+                              </Td>
+                            </Tr>
+                          )}
+                        </React.Fragment>
                       ))}
                     </Tbody>
                   </Table>
                 </Box>
               )}
-              {info2 !== null && (
-                <Box p={4} mt={"10px"} border="1px solid black">
-                  (상세정보..)
-                  <Table>
+
+              {info2 && (
+                <Box mb={8} p={6} borderRadius="lg" boxShadow="lg" bg="gray.100">
+                  <Text fontSize="lg" fontWeight="bold" mb={4}>
+                    상세정보
+                  </Text>
+                  <Table variant="simple">
                     <Tbody>
-                      {info2.map((item) => (
-                        <Tr key={item.number}>
-                          <Th>{item.infoName}</Th>
-                          <Td>
-                            {item.infoName === "객실사진" &&
-                            item.infoText.trim().length > 0 ? (
-                              item.infoText
-                                .split(",")
-                                .map((imgUrl, index) => (
-                                  <Image key={index} src={imgUrl.trim()} />
-                                ))
-                            ) : (
-                              <Text
-                                dangerouslySetInnerHTML={{
-                                  __html: item.infoText,
-                                }}
-                              />
-                            )}
-                          </Td>
-                        </Tr>
+                      {info2.map((item, index) => (
+                        <React.Fragment key={item.number}>
+                          <Tr>
+                            <Th>{item.infoName}</Th>
+                            <Td>
+                              {item.infoName === "객실사진" && item.infoText.trim().length > 0 ? (
+                                <Box display="flex" flexWrap="wrap" gap={4}>
+                                  {item.infoText.split(",").map((imgUrl, idx) => (
+                                    <Image
+                                      key={idx}
+                                      src={imgUrl.trim()}
+                                      borderRadius="md"
+                                      objectFit="cover"
+                                      maxH="300px"
+                                      w="100%"
+                                      mb={4}
+                                    />
+                                  ))}
+                                </Box>
+                              ) : (
+                                <Text dangerouslySetInnerHTML={{ __html: item.infoText }} />
+                              )}
+                            </Td>
+                          </Tr>
+                          {index < info2.length - 1 && (
+                            <Tr>
+                              <Td colSpan={2}>
+                                <Divider my={2} borderColor="gray.300" />
+                              </Td>
+                            </Tr>
+                          )}
+                        </React.Fragment>
                       ))}
                     </Tbody>
                   </Table>
@@ -845,10 +871,12 @@ export function ItineraryView() {
             </Box>
           </ModalBody>
           <ModalFooter gap={2}>
-            <Button onClick={onOpenVisit} colorScheme="blue">
+            <Button onClick={onOpenVisit} colorScheme="blue" w="100px">
               선택
             </Button>
-            <Button onClick={onCloseDetail}>닫기</Button>
+            <Button onClick={onCloseDetail} w="100px">
+              닫기
+            </Button>
           </ModalFooter>
         </ModalContent>
       </Modal>
