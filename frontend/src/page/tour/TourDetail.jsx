@@ -117,8 +117,11 @@ export function TourDetail() {
           개요
         </Heading>
         <Box whiteSpace="pre-wrap" lineHeight="tall">
-          <Collapse startingHeight={"6em"} in={showAll}>
-            <div ref={overviewRef}>{info.overview}</div>
+          <Collapse startingHeight={"7em"} in={showAll}>
+            <Box
+              ref={overviewRef}
+              dangerouslySetInnerHTML={{ __html: info.overview }}
+            ></Box>
           </Collapse>
         </Box>
         {showBtnMore && (
@@ -149,14 +152,18 @@ export function TourDetail() {
               <Th>주소</Th>
               <Td>{info.address}</Td>
             </Tr>
-            <Tr>
-              <Th>전화번호</Th>
-              <Td>{info.tel}</Td>
-            </Tr>
-            <Tr>
-              <Th>홈페이지</Th>
-              <Td dangerouslySetInnerHTML={{ __html: info.homepage }}></Td>
-            </Tr>
+            {info.tel !== null && info.tel !== "" && (
+              <Tr>
+                <Th>전화번호</Th>
+                <Td>{info.tel}</Td>
+              </Tr>
+            )}
+            {info.homepage !== null && info.homepage !== "" && (
+              <Tr>
+                <Th>홈페이지</Th>
+                <Td dangerouslySetInnerHTML={{ __html: info.homepage }}></Td>
+              </Tr>
+            )}
             <Tr>
               <Th>위치</Th>
               <Td>
