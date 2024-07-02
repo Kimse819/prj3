@@ -4,23 +4,27 @@ import {
   Box,
   Button,
   Center,
+  Collapse,
+  Divider,
+  Flex,
   Heading,
   Image,
   SimpleGrid,
   Text,
   VStack,
-  Stack,
-  Divider,
 } from "@chakra-ui/react";
 import { Outlet, useNavigate } from "react-router-dom";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import axios from "axios";
+import { faStar } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 export function Home() {
   const [contents1, setContents1] = useState([]);
   const [contents2, setContents2] = useState([]);
+  const [contents2Area, setContents2Area] = useState("");
   const [selectedStory, setSelectedStory] = useState(null);
   const [selectedEvent, setSelectedEvent] = useState(null);
 
@@ -50,7 +54,7 @@ export function Home() {
     </Box>
   );
 
-  const TravelCard = ({ imageSrc, title, description, id }) => (
+  const TravelCard = ({ imageSrc, title, description, id, rating }) => (
     <Box
       cursor="pointer"
       onClick={() => navigate(`/tour/${id}`)}
@@ -65,12 +69,26 @@ export function Home() {
         <Image src={imageSrc} alt={title} />
       </AspectRatio>
       <Box p={4}>
-        <Heading as="h3" size="md" color="teal.600">
-          {title}
-        </Heading>
-        <Text mt={2} color="gray.600">
-          {description}
-        </Text>
+        <Flex>
+          <Heading as="h3" size="md" color="teal.600">
+            {title}
+          </Heading>
+          {rating && (
+            <Text ml={2} fontSize={"sm"} color="teal.600" fontWeight="bold">
+              (<FontAwesomeIcon icon={faStar} size="sm" color="orange" />{" "}
+              {rating})
+            </Text>
+          )}
+        </Flex>
+
+        <Collapse startingHeight={"8em"}>
+          <Text
+            mt={2}
+            color="gray.600"
+            overflow={"hidden"}
+            dangerouslySetInnerHTML={{ __html: description }}
+          ></Text>
+        </Collapse>
       </Box>
     </Box>
   );
@@ -98,11 +116,23 @@ export function Home() {
   );
 
   useEffect(() => {
-    axios.get("/api/home/contents").then((res) => {
+    axios.get("/api/home/contents/popular").then((res) => {
       setContents1(res.data);
     });
-    axios.get("/api/home/contents").then((res) => {
-      setContents2(res.data);
+    axios.get("/api/home/contents/area").then((res) => {
+      const data = res.data;
+      setContents2(data);
+      let area = data[0].areaName;
+      if (area === "전북특별자치도") {
+        area = "전라북도";
+      }
+      if (area === "강원특별자치도") {
+        area = "강원도";
+      }
+      if (area === "세종특별자치시") {
+        area = "세종";
+      }
+      setContents2Area(area);
     });
   }, []);
 
@@ -134,7 +164,7 @@ export function Home() {
       title: "광명동굴 패키지",
       description: "판매가 : 400,000",
       imageUrl: "/image/event-image3.jpg",
-    }
+    },
   ];
 
   const stories = [
@@ -200,6 +230,7 @@ export function Home() {
                 id={item.id}
                 imageSrc={item.firstImage1}
                 title={item.title}
+                rating={item.rating.toFixed(1)}
                 description={item.overview ? item.overview : "설명(추가예정)"}
               />
             ))}
@@ -210,7 +241,7 @@ export function Home() {
 
         <Box>
           <Heading as="h2" size="xl" mb={4} ml={5} color="teal.700">
-            추천 여행지
+            {contents2Area} 추천 여행지
           </Heading>
           <SimpleGrid columns={{ base: 1, md: 3 }} spacing={4}>
             {contents2.map((item, index) => (
@@ -219,7 +250,7 @@ export function Home() {
                 id={item.id}
                 imageSrc={item.firstImage1}
                 title={item.title}
-                description={item.areaName}
+                description={item.overview}
               />
             ))}
           </SimpleGrid>
@@ -306,7 +337,16 @@ export function Home() {
           </SimpleGrid>
 
           {selectedEvent && (
-            <Box mt={8} p={6} maxW="xl" mx="auto" borderWidth="1px" borderRadius="lg" bg="white" boxShadow="md">
+            <Box
+              mt={8}
+              p={6}
+              maxW="xl"
+              mx="auto"
+              borderWidth="1px"
+              borderRadius="lg"
+              bg="white"
+              boxShadow="md"
+            >
               <Center mb={4}>
                 <Image
                   src={selectedEvent.imageUrl}
@@ -322,7 +362,11 @@ export function Home() {
                 <Text fontSize="md" color="gray.600">
                   {selectedEvent.description}
                 </Text>
-                <Button onClick={() => setSelectedEvent(null)} colorScheme="teal" alignSelf="center">
+                <Button
+                  onClick={() => setSelectedEvent(null)}
+                  colorScheme="teal"
+                  alignSelf="center"
+                >
                   뒤로가기
                 </Button>
               </VStack>

@@ -9,4 +9,5 @@ public class HomeContent {
     private String areaName;
     private String firstImage1;
     private String overview;
+    private Double rating;
 }

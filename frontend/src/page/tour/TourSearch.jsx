@@ -14,95 +14,93 @@ export function TourSearch() {
   const [imageList, setImageList] = useState([]);
 
   useEffect(() => {
-    setIsProcessing(true);
-    axios
-      .get(`https://apis.data.go.kr/B551011/KorService1/areaCode1`, {
-        params: {
-          serviceKey: serviceKey,
-          MobileOS: "ETC",
-          MobileApp: "AppTest",
-          _type: "json",
-          numOfRows: 100,
-          pageNo: 1,
-        },
-      })
-      .then((res) => {
-        const data = res.data.response.body.items.item.reverse();
-        setArea(
-          data.map((item) => ({
-            areaCode: item.code,
-            name: item.name,
-          })),
-        );
-      })
-      .catch(() => console.log("get error"))
-      .finally(() => {
-        setIsProcessing(false);
-      });
+    // setIsProcessing(true);
+    // axios
+    //   .get(`https://apis.data.go.kr/B551011/KorService1/areaCode1`, {
+    //     params: {
+    //       serviceKey: serviceKey,
+    //       MobileOS: "ETC",
+    //       MobileApp: "AppTest",
+    //       _type: "json",
+    //       numOfRows: 100,
+    //       pageNo: 1,
+    //     },
+    //   })
+    //   .then((res) => {
+    //     const data = res.data.response.body.items.item.reverse();
+    //     setArea(
+    //       data.map((item) => ({
+    //         areaCode: item.code,
+    //         name: item.name,
+    //       })),
+    //     );
+    //   })
+    //   .catch(() => console.log("get error"))
+    //   .finally(() => {
+    //     setIsProcessing(false);
+    //   });
   }, []);
 
-  useEffect(() => {
-    if (intros.length > 0) {
-      axios
-        .post(`/api/tour/add/intro`, intros)
-        .then(() => {})
-        .catch()
-        .finally(() => {
-          setIntros([]);
-        });
-    }
-  }, [handleAddIntroInfo]);
+  // useEffect(() => {
+  //   if (intros.length > 0) {
+  //     axios
+  //       .post(`/api/tour/add/intro`, intros)
+  //       .then(() => {})
+  //       .catch()
+  //       .finally(() => {});
+  //   }
+  // }, [handleGetIntroInfo]);
 
-  useEffect(() => {
-    if (info1Details.length > 0) {
-      axios
-        .put("/api/tour/add/info1detail", info1Details)
-        .then(() => {})
-        .catch(() => {})
-        .finally(() => {
-          setInfo1Details([]);
-        });
-    }
-  }, [handleAddContentInfo1detail]);
+  // useEffect(() => {
+  //   if (info1Details.length > 0) {
+  //     axios
+  //       .put("/api/tour/add/info1detail", info1Details)
+  //       .then(() => {})
+  //       .catch(() => {})
+  //       .finally(() => {
+  //         setInfo1Details([]);
+  //       });
+  //   }
+  // }, [handleGetContentInfo1detail]);
 
-  useEffect(() => {
-    if (info2List.length > 0) {
-      axios
-        .post("/api/tour/add/info2", info2List)
-        .then(() => {
-          console.log("post");
-        })
-        .catch()
-        .finally(() => {
-          setInfo2List([]);
-        });
-    }
-    if (lodgingInfo2List.length > 0) {
-      axios
-        .post("/api/tour/add/lodgingInfo2", lodgingInfo2List)
-        .then(() => {
-          console.log("post");
-        })
-        .catch()
-        .finally(() => {
-          setLodgingInfo2List([]);
-        });
-    }
-  }, [handleAddContentInfo2]);
+  // useEffect(() => {
+  //   if (info2List.length > 0) {
+  //     axios
+  //       .post("/api/tour/add/info2", info2List)
+  //       .then(() => {
+  //         console.log("post");
+  //       })
+  //       .catch()
+  //       .finally(() => {
+  //         setInfo2List([]);
+  //       });
+  //   }
+  //   if (lodgingInfo2List.length > 0) {
+  //     axios
+  //       .post("/api/tour/add/lodgingInfo2", lodgingInfo2List)
+  //       .then(() => {
+  //         console.log("post");
+  //       })
+  //       .catch()
+  //       .finally(() => {
+  //         setLodgingInfo2List([]);
+  //       });
+  //   }
+  // }, [handleGetContentInfo2]);
 
-  useEffect(() => {
-    if (imageList.length > 0) {
-      axios
-        .post("/api/tour/add/image", imageList)
-        .then(() => {
-          console.log("post");
-        })
-        .catch(() => {})
-        .finally(() => {
-          setImageList([]);
-        });
-    }
-  }, [handleAddImages]);
+  // useEffect(() => {
+  //   if (imageList.length > 0) {
+  //     axios
+  //       .post("/api/tour/add/image", imageList)
+  //       .then(() => {
+  //         console.log("post");
+  //       })
+  //       .catch(() => {})
+  //       .finally(() => {
+  //         setImageList([]);
+  //       });
+  //   }
+  // }, [handleGetImages]);
 
   if (isProcessing) {
     return <Spinner />;
@@ -428,7 +426,7 @@ export function TourSearch() {
     }
   }
 
-  async function handleAddContentInfo1detail() {
+  async function handleGetContentInfo1detail() {
     setIsProcessing(true);
     try {
       await axios
@@ -475,7 +473,10 @@ export function TourSearch() {
                         homepage: item.homepage,
                         overview: item.overview,
                       }));
-                      setInfo1Details([...info1Details, info1detail]);
+                      setInfo1Details((prevDetails) => [
+                        ...prevDetails,
+                        info1detail,
+                      ]);
                     })
                     .catch()
                     .finally(() => {
@@ -494,18 +495,38 @@ export function TourSearch() {
     }
   }
 
-  async function handleAddContentInfo2() {
+  async function handleAddContentInfo1detail() {
+    if (info1Details.length > 0) {
+      const offset = 1000;
+
+      for (let i = 0; i < info1Details.length; i += offset) {
+        const batch = info1Details.slice(i, i + offset);
+        await axios
+          .put("/api/tour/add/info1detail", batch)
+          .then(() => {})
+          .catch((err) => {
+            console.error(err);
+          })
+          .finally(() => {});
+
+        await new Promise((resolve) => setTimeout(resolve, 500));
+      }
+    }
+  }
+
+  async function handleGetContentInfo2() {
     setIsProcessing(true);
     // 모든 데이터 호출용
     try {
-      await axios
+      axios
         .get(`/api/tour/get/contentId`)
         .then((res) => {
           const idList = res.data;
           for (const id of idList) {
+            new Promise((resolve) => setTimeout(resolve, 300));
             axios
               .get(`/api/tour/get/content/${id}`)
-              .then(async (res) => {
+              .then((res) => {
                 const contentList = res.data;
                 for (const content of contentList) {
                   const exContentId = content.exContentId;
@@ -513,7 +534,7 @@ export function TourSearch() {
 
                   // typeId 가 32가 아니면
                   if (typeId !== 32) {
-                    await axios
+                    axios
                       .get(
                         `https://apis.data.go.kr/B551011/KorService1/detailInfo1`,
                         {
@@ -537,16 +558,16 @@ export function TourSearch() {
                           infoName: item.infoname,
                           infoText: item.infotext,
                         }));
-                        setInfo2List([...info2List, info2]);
+                        setInfo2List((prev) => [...prev, info2]);
                       })
                       .catch()
                       .finally(() => {
-                        new Promise((resolve) => setTimeout(resolve, 200));
+                        new Promise((resolve) => setTimeout(resolve, 300));
                       });
                   }
                   // typeId 가 32일 경우
                   if (typeId === 32) {
-                    await axios
+                    axios
                       .get(
                         `https://apis.data.go.kr/B551011/KorService1/detailInfo1`,
                         {
@@ -596,11 +617,11 @@ export function TourSearch() {
                           img4: item.roomimg4,
                           img5: item.roomimg5,
                         }));
-                        setLodgingInfo2List([...lodgingInfo2List, info2]);
+                        setLodgingInfo2List((prev) => [...prev, info2]);
                       })
                       .catch()
                       .finally(() => {
-                        new Promise((resolve) => setTimeout(resolve, 200));
+                        new Promise((resolve) => setTimeout(resolve, 300));
                       });
                   }
                 }
@@ -616,7 +637,38 @@ export function TourSearch() {
     }
   }
 
-  async function handleAddImages() {
+  async function handleAddContentInfo2() {
+    if (info2List.length > 0) {
+      const offset = 100;
+      for (let i = 0; i < info2List.length; i += offset) {
+        const batch = info2List.slice(i, i + offset);
+        await axios
+          .post("/api/tour/add/info2", batch)
+          .then(() => {
+            console.log("post");
+          })
+          .catch()
+          .finally(() => {});
+        await new Promise((resolve) => setTimeout(resolve, 500));
+      }
+    }
+    if (lodgingInfo2List.length > 0) {
+      const offset = 100;
+      for (let i = 0; i < lodgingInfo2List.length; i += offset) {
+        const batch = lodgingInfo2List.slice(i, i + offset);
+        await axios
+          .post("/api/tour/add/lodgingInfo2", batch)
+          .then(() => {
+            console.log("post");
+          })
+          .catch()
+          .finally(() => {});
+        await new Promise((resolve) => setTimeout(resolve, 500));
+      }
+    }
+  }
+
+  async function handleGetImages() {
     setIsProcessing(true);
     try {
       await axios
@@ -654,11 +706,11 @@ export function TourSearch() {
                       originalUrl: item.originimgurl,
                       smallUrl: item.smallimageurl,
                     }));
-                    setImageList([...imageList, images]);
+                    setImageList((prev) => [...prev, images]);
                   })
                   .catch()
                   .finally(() => {
-                    new Promise((resolve) => setTimeout(resolve, 200));
+                    new Promise((resolve) => setTimeout(resolve, 300));
                   });
               }
             });
@@ -669,6 +721,25 @@ export function TourSearch() {
     } catch (err) {
       console.error(err.message);
     }
+  }
+
+  async function handleAddImages() {
+    setIsProcessing(true);
+    if (imageList.length > 0) {
+      const offset = 100;
+      for (let i = 0; i < imageList.length; i += offset) {
+        const batch = imageList.slice(i, i + offset);
+        await axios
+          .post("/api/tour/add/image", batch)
+          .then(() => {
+            console.log("post");
+          })
+          .catch(() => {})
+          .finally(() => {});
+        await new Promise((resolve) => setTimeout(resolve, 500));
+      }
+    }
+    setIsProcessing(false);
   }
 
   async function handleAddTypeCategoryMapping() {
@@ -756,16 +827,16 @@ export function TourSearch() {
       });
   }
 
-  async function handleAddIntroInfo() {
+  async function handleGetIntroInfo() {
     setIsProcessing(true);
     try {
       await axios
         .get(`/api/tour/get/contentId`)
-        .then(async (res) => {
+        .then((res) => {
           const idList = res.data;
           for (const id of idList) {
-            //   모든 데이터 호출용
-            await axios
+            //  모든 데이터 호출용
+            axios
               .get(`/api/tour/get/content/${id}`)
               .then(async (res) => {
                 const contentList = res.data;
@@ -776,7 +847,7 @@ export function TourSearch() {
                   // 관광지 ( 67257 )
                   if (typeId === 12) {
                     await getIntroInfo(exContentId, typeId)
-                      .then(async (data) => {
+                      .then((data) => {
                         const intro = data.map((item) => ({
                           contentId: id,
                           typeId: typeId,
@@ -796,17 +867,15 @@ export function TourSearch() {
                           useSeason: item.useseason,
                           useTime: item.usetime,
                         }));
-                        await setIntros([...intros, intro]);
+                        setIntros((prev) => [...prev, intro]);
                       })
                       .catch()
-                      .finally(() => {
-                        new Promise((resolve) => setTimeout(resolve, 200));
-                      });
+                      .finally(() => {});
                   }
                   // 문화시설 ( 40972 )
                   if (typeId === 14) {
                     await getIntroInfo(exContentId, typeId)
-                      .then(async (data) => {
+                      .then((data) => {
                         const intro = data.map((item) => ({
                           contentId: id,
                           typeId: typeId,
@@ -824,17 +893,15 @@ export function TourSearch() {
                           scale: item.scale,
                           spendTime: item.spendtime,
                         }));
-                        await setIntros([...intros, intro]);
+                        setIntros((prev) => [...prev, intro]);
                       })
                       .catch()
-                      .finally(() => {
-                        new Promise((resolve) => setTimeout(resolve, 200));
-                      });
+                      .finally(() => {});
                   }
                   // 축제/공연/행사 ( 70878 )
                   if (typeId === 15) {
                     await getIntroInfo(exContentId, typeId)
-                      .then(async (data) => {
+                      .then((data) => {
                         const intro = data.map((item) => ({
                           contentId: id,
                           typeId: typeId,
@@ -855,17 +922,15 @@ export function TourSearch() {
                           telSponsor2: item.sponsor2tel,
                           subEvent: item.subevent,
                         }));
-                        await setIntros([...intros, intro]);
+                        setIntros((prev) => [...prev, intro]);
                       })
                       .catch()
-                      .finally(() => {
-                        new Promise((resolve) => setTimeout(resolve, 200));
-                      });
+                      .finally(() => {});
                   }
                   // 레포츠 ( 41147 )
                   if (typeId === 28) {
                     await getIntroInfo(exContentId, typeId)
-                      .then(async (data) => {
+                      .then((data) => {
                         const intro = data.map((item) => ({
                           contentId: id,
                           typeId: typeId,
@@ -884,17 +949,15 @@ export function TourSearch() {
                           useTime: item.usetimeleports,
                           scale: item.scaleleports,
                         }));
-                        await setIntros([...intros, intro]);
+                        setIntros((prev) => [...prev, intro]);
                       })
                       .catch()
-                      .finally(() => {
-                        new Promise((resolve) => setTimeout(resolve, 200));
-                      });
+                      .finally(() => {});
                   }
                   // 숙박 ( 29777 )
                   if (typeId === 32) {
                     await getIntroInfo(exContentId, typeId)
-                      .then(async (data) => {
+                      .then((data) => {
                         const intro = data.map((item) => ({
                           contentId: id,
                           typeId: typeId,
@@ -913,17 +976,15 @@ export function TourSearch() {
                           roomType: item.roomtype,
                           subFacility: item.subfacility,
                         }));
-                        await setIntros([...intros, intro]);
+                        setIntros((prev) => [...prev, intro]);
                       })
                       .catch()
-                      .finally(() => {
-                        new Promise((resolve) => setTimeout(resolve, 200));
-                      });
+                      .finally(() => {});
                   }
                   // 쇼핑 ( 70734 )
                   if (typeId === 38) {
                     await getIntroInfo(exContentId, typeId)
-                      .then(async (data) => {
+                      .then((data) => {
                         const intro = data.map((item) => ({
                           contentId: id,
                           typeId: typeId,
@@ -941,17 +1002,15 @@ export function TourSearch() {
                           scale: item.scaleshopping,
                           shopGuide: item.shopguide,
                         }));
-                        await setIntros([...intros, intro]);
+                        setIntros((prev) => [...prev, intro]);
                       })
                       .catch()
-                      .finally(() => {
-                        new Promise((resolve) => setTimeout(resolve, 200));
-                      });
+                      .finally(() => {});
                   }
                   // 음식점 ( 17592 )
                   if (typeId === 39) {
                     await getIntroInfo(exContentId, typeId)
-                      .then(async (data) => {
+                      .then((data) => {
                         const intro = data.map((item) => ({
                           contentId: id,
                           typeId: typeId,
@@ -970,13 +1029,12 @@ export function TourSearch() {
                           scale: item.scalefood,
                           seat: item.seat,
                         }));
-                        await setIntros([...intros, intro]);
+                        setIntros((prev) => [...prev, intro]);
                       })
                       .catch()
-                      .finally(() => {
-                        new Promise((resolve) => setTimeout(resolve, 200));
-                      });
+                      .finally(() => {});
                   }
+                  new Promise((resolve) => setTimeout(resolve, 200));
                 }
               })
               .catch()
@@ -990,6 +1048,25 @@ export function TourSearch() {
     } catch (err) {
       console.error(err.message);
     }
+  }
+
+  async function handleAddIntroInfo() {
+    setIsProcessing(true);
+    if (intros.length > 0) {
+      const offset = 100;
+      for (let i = 0; i < intros.length; i += offset) {
+        const batch = intros.slice(i, i + offset);
+        axios
+          .post(`/api/tour/add/intro`, batch)
+          .then(() => {
+            console.log("post");
+          })
+          .catch()
+          .finally(() => {});
+        await new Promise((resolve) => setTimeout(resolve, 500));
+      }
+    }
+    setIsProcessing(false);
   }
 
   function handleAddSyncList() {
@@ -1507,6 +1584,14 @@ export function TourSearch() {
     setIsProcessing(false);
   }
 
+  function handleTest2() {
+    axios.get(`/api/tour/get/contentId`).then((res) => {
+      const idList = res.data;
+      console.log(idList.length);
+      console.log(idList.length / 1000);
+    });
+  }
+
   return (
     <Box>
       <Button onClick={handleAddArea}>지역 입력</Button>
@@ -1520,18 +1605,29 @@ export function TourSearch() {
       </Button>
       <Button onClick={handleAddContent2}>콘텐츠 입력2(.1)</Button>
       <Button onClick={handleAddContentInfo1}>콘텐츠 기본 정보 입력(.2)</Button>
-      <Button onClick={handleAddContentInfo1detail}>
-        나머지 기본 정보 입력(.3)
+      <Button onClick={handleGetContentInfo1detail}>
+        나머지 기본 정보 get(.3-1)
       </Button>
-      <Button onClick={handleAddContentInfo2}>콘텐츠 상세 정보 입력(.4)</Button>
-      <Button onClick={handleAddImages}>이미지 입력(.5)</Button>
+      <Button onClick={handleAddContentInfo1detail}>
+        나머지 기본 정보 입력(.3-2)
+      </Button>
+      <Button onClick={handleGetContentInfo2}>
+        콘텐츠 상세 정보 get(.4-1)
+      </Button>
+      <Button onClick={handleAddContentInfo2}>
+        콘텐츠 상세 정보 입력(.4-2)
+      </Button>
+      <Button onClick={handleGetImages}>이미지 get(.5-1)</Button>
+      <Button onClick={handleAddImages}>이미지 입력(.5-2)</Button>
       <Button onClick={handleAddTypeCategoryMapping}>
         타입-카테고리 매핑 정보 입력
       </Button>
-      <Button onClick={handleAddIntroInfo}>소개정보 입력(.6)</Button>
+      <Button onClick={handleGetIntroInfo}>소개정보 get(.6-1)</Button>
+      <Button onClick={handleAddIntroInfo}>소개정보 입력(.6-2)</Button>
       <Button onClick={handleAddSyncList}>정보 동기화</Button>
       <Box mt={5}>
         <Button onClick={handleTest}>테스트 버튼</Button>
+        <Button onClick={handleTest2}>test2</Button>
       </Box>
 
       {area.length > 0 && (

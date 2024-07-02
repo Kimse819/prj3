@@ -190,7 +190,7 @@ export function TourDetail() {
           </ModalContent>
         </Modal>
       </Box>
-      {introInfo !== null && (
+      {introInfo !== null && introInfo.length > 0 && (
         <Box mb={6} p={4} borderWidth="1px" borderRadius="lg" boxShadow="sm">
           <Heading size="md" mb={4} color="teal.700">
             소개정보
@@ -209,7 +209,7 @@ export function TourDetail() {
           </Table>
         </Box>
       )}
-      {info2 !== null && (
+      {info2 !== null && info2.length > 0 && (
         <Box mb={6} p={4} borderWidth="1px" borderRadius="lg" boxShadow="sm">
           <Heading size="md" mb={4} color="teal.700">
             상세정보
@@ -250,9 +250,7 @@ export function TourDetail() {
       )}
       <Divider mb={6} />
       <Box mb={6}>
-        <Heading size="md" mb={4} color="teal.700">
-
-        </Heading>
+        <Heading size="md" mb={4} color="teal.700"></Heading>
         <ReviewComponent contentId={info.id} />
       </Box>
     </Box>
