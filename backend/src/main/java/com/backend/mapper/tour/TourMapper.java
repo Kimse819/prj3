@@ -692,11 +692,18 @@ public interface TourMapper {
             FROM image
             WHERE content_id=#{id}
             """)
-    List<Image> selectImageByContentId(Integer id);
+    List<Image> selectImageIdByContentId(Integer id);
 
     @Delete("""
             DELETE FROM image
             WHERE content_id=#{id}
             """)
     int deleteImage(Integer id);
+
+    @Select("""
+            SELECT *
+            FROM image
+            WHERE content_id=#{id}
+            """)
+    List<Image> selectImageByContentId(Integer id);
 }
