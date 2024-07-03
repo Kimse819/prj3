@@ -2,8 +2,6 @@ import React, { useEffect, useState } from "react";
 import {
   AspectRatio,
   Box,
-  Button,
-  Center,
   Collapse,
   Divider,
   Flex,
@@ -27,7 +25,6 @@ export function Home() {
   const [selectedStory, setSelectedStory] = useState(null);
 
   const navigate = useNavigate();
-
 
   const TravelCard = ({ imageSrc, title, description, id, rating }) => (
     <Box
@@ -103,10 +100,11 @@ export function Home() {
     dots: true,
     infinite: true,
     speed: 500,
-    slidesToShow: 6,
+    slidesToShow: 5,
     slidesToScroll: 1,
     autoplay: true,
     autoplaySpeed: 3000,
+    draggable: true,
   };
 
   const stories = [
@@ -148,11 +146,9 @@ export function Home() {
     },
   ];
 
-
   const handleStoryClick = (storyId) => {
     navigate(`/board/${storyId}`);
   };
-
 
   return (
     <Box mt={10} bg="gray.50" p={4}>
