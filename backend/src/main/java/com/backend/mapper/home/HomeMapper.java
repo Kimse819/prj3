@@ -35,9 +35,9 @@ public interface HomeMapper {
                                      GROUP BY content_id) avg ON c.id = avg.content_id
                    WHERE first_image1 NOT LIKE ''
                    ORDER BY avg.rating DESC
-                   LIMIT 10) as popular
+                   LIMIT 50) as popular
             ORDER BY RAND()
-            LIMIT 6
+            LIMIT 10
             """)
     List<HomeContent> selectContentsByRating();
 
@@ -48,9 +48,9 @@ public interface HomeMapper {
                     FROM content c
                               JOIN info1 i ON c.id = i.content_id
                               JOIN area a ON c.area_code = a.area_code
-                    WHERE first_image1 NOT LIKE ''
+                    WHERE first_image1 NOT LIKE '' AND overview NOT LIKE '-'
                     ORDER BY i.modified DESC
-                    LIMIT 1000) AS recency
+                    LIMIT 2000) AS recency
                         JOIN (
                                 SELECT a.name
                                 FROM area a
@@ -58,7 +58,7 @@ public interface HomeMapper {
                                 LIMIT 1) AS ar
                             ON recency.area_name = ar.name
             ORDER BY RAND()
-            LIMIT 6
+            LIMIT 10
             """)
     List<HomeContent> selectContentsByArea();
 }
