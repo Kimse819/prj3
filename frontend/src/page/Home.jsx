@@ -318,7 +318,7 @@ export function Home() {
             w={{ base: "100%", md: "80%", lg: "1500px" }}
             mt={8}
             p={6}
-            bgImage="url('/image/banner-image.jpg')"
+            bgImage="url('/image/baner-image2.png')"
             bgSize="cover"
             bgPosition="center"
             borderRadius="lg"
