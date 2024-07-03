@@ -36,6 +36,7 @@ export function TourDetail() {
   const [showAll, setShowAll] = useState(false);
   const [showBtnMore, setShowBtnMore] = useState(false);
   const { onClose, onOpen, isOpen } = useDisclosure();
+  const [selectedImage, setSelectedImage] = useState("");
 
   const overviewRef = useRef(null);
 
@@ -44,6 +45,7 @@ export function TourDetail() {
       .get(`/api/tour/${id}`)
       .then((res) => {
         setInfo(res.data.info1);
+        setSelectedImage(res.data.info1.firstImage1);
         function handleResize() {
           if (overviewRef.current) {
             const overviewHeight = overviewRef.current.clientHeight;
@@ -76,7 +78,7 @@ export function TourDetail() {
         setImages(res.data);
       })
       .catch();
-  }, [info.overview]);
+  }, [id]);
 
   if (info && info.length === 0) {
     return <Spinner />;
@@ -84,6 +86,10 @@ export function TourDetail() {
 
   function handleToggleShow() {
     setShowAll(!showAll);
+  }
+
+  function handleImageClick(imageUrl) {
+    setSelectedImage(imageUrl);
   }
 
   return (
@@ -109,9 +115,12 @@ export function TourDetail() {
         borderRadius="lg"
         overflow="hidden"
         height={{ base: "400px", md: "500px", lg: "500px" }}
+        display="flex"
+        justifyContent="center"
+        alignItems="center"
       >
         <Image
-          src={info.firstImage1}
+          src={selectedImage}
           borderRadius="lg"
           height="100%"
           width="100%"
@@ -120,20 +129,37 @@ export function TourDetail() {
           _hover={{ transform: "scale(1.05)" }}
         />
       </Box>
-      {/* TODO: 갤러리 형식으로 */}
-      {/* 큰 이미지 */}
-      <Flex>
-        <Image src={info.firstImage1} />
-        {images.map((item) => (
-          <Image key={item.id} src={item.originalUrl} />
-        ))}
-      </Flex>
 
       {/* 작은 이미지 */}
-      <Flex>
-        <Image src={info.firstImage2} />
+      <Flex wrap="wrap" justify="center" mb={6}>
+        <Image
+          src={info.firstImage1}
+          boxSize="100px"
+          objectFit="cover"
+          m={2}
+          cursor="pointer"
+          onClick={() => handleImageClick(info.firstImage1)}
+          _hover={{
+            shadow: "lg",
+            transform: "scale(1.05)",
+            transition: "0.3s",
+          }}
+        />
         {images.map((item) => (
-          <Image key={item.id} src={item.smallUrl} />
+          <Image
+            key={item.id}
+            src={item.smallUrl}
+            boxSize="100px"
+            objectFit="cover"
+            m={2}
+            cursor="pointer"
+            onClick={() => handleImageClick(item.originalUrl)}
+            _hover={{
+              shadow: "lg",
+              transform: "scale(1.05)",
+              transition: "0.3s",
+            }}
+          />
         ))}
       </Flex>
 
