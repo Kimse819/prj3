@@ -258,8 +258,8 @@ public class TourService {
                 int dbCountInfo2 = mapper.countInfo2ByContentIdOnContent(info2.getContentId(), info2.getNumber());
 
                 if (dbCountContent == 1 && dbCountInfo2 == 0) {
-                    mapper.insertInfo2(info2);
                     System.out.println(STR."\{info2.getContentId()}");
+                    mapper.insertInfo2(info2);
                 } else {
                     System.out.println(STR."\{info2.getContentId()} - 입력실패");
                 }
@@ -456,6 +456,7 @@ public class TourService {
                 Integer lodgingInfo2Id = mapper.selectLodgingInfo2IdByContentIdOnContent(info2.getContentId(), info2.getNumber());
 
                 if (dbCountContent == 1 && lodgingInfo2Id == null) {
+                    System.out.println(STR."\{info2.getContentId()}");
                     mapper.insertLodgingInfo2(info2);
 
                     String[] images = {info2.getImg1(), info2.getImg2(), info2.getImg3(), info2.getImg4(), info2.getImg5()};

@@ -1594,36 +1594,50 @@ export function TourSearch() {
 
   return (
     <Box>
-      <Button onClick={handleAddArea}>지역 입력</Button>
-      <Button onClick={handleGetAreaCodes}>areaCode 받기</Button>
-      <Button onClick={handleAddSigungu}>시군구 입력</Button>
-      <Button onClick={handleAddCat1}>대분류 입력</Button>
-      <Button onClick={handleAddCat2}>중분류 입력</Button>
-      <Button onClick={handleAddCat3}>소분류 입력</Button>
-      <Button isDisabled onClick={handleAddContent1}>
-        콘텐츠 입력1
-      </Button>
-      <Button onClick={handleAddContent2}>콘텐츠 입력2(.1)</Button>
-      <Button onClick={handleAddContentInfo1}>콘텐츠 기본 정보 입력(.2)</Button>
-      <Button onClick={handleGetContentInfo1detail}>
-        나머지 기본 정보 get(.3-1)
-      </Button>
-      <Button onClick={handleAddContentInfo1detail}>
-        나머지 기본 정보 입력(.3-2)
-      </Button>
-      <Button onClick={handleGetContentInfo2}>
-        콘텐츠 상세 정보 get(.4-1)
-      </Button>
-      <Button onClick={handleAddContentInfo2}>
-        콘텐츠 상세 정보 입력(.4-2)
-      </Button>
-      <Button onClick={handleGetImages}>이미지 get(.5-1)</Button>
-      <Button onClick={handleAddImages}>이미지 입력(.5-2)</Button>
-      <Button onClick={handleAddTypeCategoryMapping}>
-        타입-카테고리 매핑 정보 입력
-      </Button>
-      <Button onClick={handleGetIntroInfo}>소개정보 get(.6-1)</Button>
-      <Button onClick={handleAddIntroInfo}>소개정보 입력(.6-2)</Button>
+      <Box>
+        <Button onClick={handleAddArea}>지역 입력</Button>
+        <Button onClick={handleGetAreaCodes}>areaCode 받기</Button>
+        <Button onClick={handleAddSigungu}>시군구 입력</Button>
+        <Button onClick={handleAddCat1}>대분류 입력</Button>
+        <Button onClick={handleAddCat2}>중분류 입력</Button>
+        <Button onClick={handleAddCat3}>소분류 입력</Button>
+        <Button onClick={handleAddTypeCategoryMapping}>
+          타입-카테고리 매핑 정보 입력
+        </Button>
+        <Button isDisabled onClick={handleAddContent1}>
+          콘텐츠 입력1
+        </Button>
+      </Box>
+      <Box>
+        <Button onClick={handleAddContent2}>콘텐츠 입력2(.1)</Button>
+        <Button onClick={handleAddContentInfo1}>
+          콘텐츠 기본 정보 입력(.2)
+        </Button>
+      </Box>
+      <Box>
+        <Button onClick={handleGetContentInfo1detail}>
+          나머지 기본 정보 get(.3-1)
+        </Button>
+        <Button onClick={handleAddContentInfo1detail}>
+          나머지 기본 정보 입력(.3-2)
+        </Button>
+      </Box>
+      <Box>
+        <Button onClick={handleGetContentInfo2}>
+          콘텐츠 상세 정보 get(.4-1)
+        </Button>
+        <Button onClick={handleAddContentInfo2}>
+          콘텐츠 상세 정보 입력(.4-2)
+        </Button>
+      </Box>
+      <Box>
+        <Button onClick={handleGetImages}>이미지 get(.5-1)</Button>
+        <Button onClick={handleAddImages}>이미지 입력(.5-2)</Button>
+      </Box>
+      <Box>
+        <Button onClick={handleGetIntroInfo}>소개정보 get(.6-1)</Button>
+        <Button onClick={handleAddIntroInfo}>소개정보 입력(.6-2)</Button>
+      </Box>
       <Button onClick={handleAddSyncList}>정보 동기화</Button>
       <Box mt={5}>
         <Button onClick={handleTest}>테스트 버튼</Button>
