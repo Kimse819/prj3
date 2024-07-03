@@ -33,7 +33,6 @@ export function BoardWrite() {
   function handleFileChange(e) {
     const file = e.target.files[0];
     if (file) {
-      console.log(file);
       const reader = new FileReader();
       reader.onload = (event) => {
         const image = document.createElement("img");
@@ -58,11 +57,11 @@ export function BoardWrite() {
       return;
     }
     let updatedContent = content;
-    if (images !== []) {
+    if (images.length > 0) {
       images.forEach((item, index) => {
         updatedContent = updatedContent.replace(
-          images[index],
-          files[index].name,
+          item,
+          files[index].name
         );
       });
     }
@@ -91,10 +90,9 @@ export function BoardWrite() {
   }
 
   //file 목록 작성
-  const fileNameList = [];
-  for (let i = 0; i < files.length; i++) {
-    fileNameList.push(<li key={i}>{files[i].name}</li>);
-  }
+  const fileNameList = files.map((file, index) => (
+    <li key={index}>{file.name}</li>
+  ));
 
   return (
     <Box py={8} px={4} minH="100vh" bg="gray.50">
@@ -110,7 +108,7 @@ export function BoardWrite() {
           textAlign="center"
           fontSize="2xl"
           fontWeight="bold"
-          color={"teal"}
+          color="teal.500"
         >
           글쓰기
         </Heading>
@@ -132,34 +130,32 @@ export function BoardWrite() {
             <FormLabel fontWeight="bold">내용</FormLabel>
             <Box
               mt={2}
-              h="600px"
+              h="400px"
               px={4}
               py={3}
               borderRadius={4}
               outlineColor="#3182ce"
               bg="gray.100"
               ref={editorRef}
-              _placeholder="내용"
-              contentEditable={true}
-              overflowY={"scroll"}
+              contentEditable
+              overflowY="scroll"
               onInput={updateContent}
-              value={content}
             ></Box>
           </FormControl>
           <FormControl>
             <FormLabel>파일</FormLabel>
             <Input
-              multiple={true}
+              multiple
               type="file"
               accept="image/*"
-              cursor={"pointer"}
+              cursor="pointer"
               onChange={(e) => {
                 handleFileChange(e);
                 setFiles((prev) => [...prev, ...e.target.files]);
               }}
             />
             <FormHelperText>
-              총 용량은 20MB, 한 파일은 10MB를 초과할 수 없습니다!
+              총 용량은 60MB, 한 파일은 30MB를 초과할 수 없습니다!
             </FormHelperText>
           </FormControl>
           {files.length > 0 && (
@@ -170,18 +166,16 @@ export function BoardWrite() {
               <ul>{fileNameList}</ul>
             </Box>
           )}
-          <Center gap={2}>
+          <Center gap={4}>
             <Button
               colorScheme="blue"
               onClick={handleClickSave}
-              alignSelf="center"
             >
               저장
             </Button>
             <Button
               colorScheme="gray"
               onClick={() => navigate(`/board/list`)}
-              alignSelf="center"
             >
               목록
             </Button>
