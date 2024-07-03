@@ -11,7 +11,10 @@ import {
   Input,
   useToast,
   VStack,
+  HStack,
+  IconButton,
 } from "@chakra-ui/react";
+import { CloseIcon } from "@chakra-ui/icons";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { LoginContext } from "../../component/LoginProvider.jsx";
@@ -40,6 +43,9 @@ export function BoardWrite() {
         image.src = event.target.result;
         setImages((prev) => [...prev, event.target.result]);
         image.style.maxHeight = "100%";
+        image.style.maxWidth = "100%";
+        image.style.marginTop = "10px";
+        image.style.borderRadius = "8px";
         editorRef.current.appendChild(image);
         updateContent();
       };
@@ -58,7 +64,7 @@ export function BoardWrite() {
       return;
     }
     let updatedContent = content;
-    if (images !== []) {
+    if (images.length > 0) {
       images.forEach((item, index) => {
         updatedContent = updatedContent.replace(
           images[index],
@@ -90,10 +96,9 @@ export function BoardWrite() {
       });
   }
 
-  //file 목록 작성
-  const fileNameList = [];
-  for (let i = 0; i < files.length; i++) {
-    fileNameList.push(<li key={i}>{files[i].name}</li>);
+  function removeFile(index) {
+    setFiles(files.filter((_, i) => i !== index));
+    setImages(images.filter((_, i) => i !== index));
   }
 
   return (
@@ -132,9 +137,9 @@ export function BoardWrite() {
             <FormLabel fontWeight="bold">내용</FormLabel>
             <Box
               mt={2}
-              h="600px"
-              px={4}
-              py={3}
+              h="400px"
+              p={4}
+              borderWidth={1}
               borderRadius={4}
               outlineColor="#3182ce"
               bg="gray.100"
@@ -143,13 +148,12 @@ export function BoardWrite() {
               contentEditable={true}
               overflowY={"scroll"}
               onInput={updateContent}
-              value={content}
             ></Box>
           </FormControl>
           <FormControl>
-            <FormLabel>파일</FormLabel>
+            <FormLabel fontWeight="bold">파일</FormLabel>
             <Input
-              multiple={true}
+              multiple
               type="file"
               accept="image/*"
               cursor={"pointer"}
@@ -159,18 +163,29 @@ export function BoardWrite() {
               }}
             />
             <FormHelperText>
-              총 용량은 20MB, 한 파일은 10MB를 초과할 수 없습니다!
+              총 용량은 100MB, 한 파일은 50MB를 초과할 수 없습니다!
             </FormHelperText>
           </FormControl>
           {files.length > 0 && (
-            <Box>
+            <Box width="100%">
               <Heading size="sm" mt={4} mb={2}>
                 첨부 파일
               </Heading>
-              <ul>{fileNameList}</ul>
+              <VStack spacing={2} align="stretch">
+                {files.map((file, index) => (
+                  <HStack key={index} justifyContent="space-between">
+                    <Box>{file.name}</Box>
+                    <IconButton
+                      size="sm"
+                      icon={<CloseIcon />}
+                      onClick={() => removeFile(index)}
+                    />
+                  </HStack>
+                ))}
+              </VStack>
             </Box>
           )}
-          <Center gap={2}>
+          <Center gap={2} mt={6}>
             <Button
               colorScheme="blue"
               onClick={handleClickSave}

@@ -25,33 +25,9 @@ export function Home() {
   const [contents2, setContents2] = useState([]);
   const [contents2Area, setContents2Area] = useState("");
   const [selectedStory, setSelectedStory] = useState(null);
-  const [selectedEvent, setSelectedEvent] = useState(null);
 
   const navigate = useNavigate();
 
-  const EventCard = ({ event, onClick }) => (
-    <Box
-      borderWidth="1px"
-      borderRadius="lg"
-      overflow="hidden"
-      _hover={{ shadow: "lg", transform: "scale(1.05)", transition: "0.3s" }}
-      onClick={() => onClick(event.id)}
-      cursor="pointer"
-      bg="white"
-    >
-      <AspectRatio ratio={16 / 9}>
-        <Image src={event.imageUrl} alt={event.title} />
-      </AspectRatio>
-      <Box p={4}>
-        <Heading as="h3" size="md" color="teal.600">
-          {event.title}
-        </Heading>
-        <Text mt={2} color="gray.600">
-          {event.description}
-        </Text>
-      </Box>
-    </Box>
-  );
 
   const TravelCard = ({ imageSrc, title, description, id, rating }) => (
     <Box
@@ -133,27 +109,6 @@ export function Home() {
     autoplaySpeed: 3000,
   };
 
-  const events = [
-    {
-      id: 1,
-      title: "광화문 관람 패키지",
-      description: "판매가 : 550,000~",
-      imageUrl: "/image/event-image.png",
-    },
-    {
-      id: 2,
-      title: "경주 여행 패키지",
-      description: "판매가 : 700,000",
-      imageUrl: "/image/event-image2.jpg",
-    },
-    {
-      id: 3,
-      title: "광명동굴 패키지",
-      description: "판매가 : 400,000",
-      imageUrl: "/image/event-image3.jpg",
-    },
-  ];
-
   const stories = [
     {
       id: 1,
@@ -168,7 +123,7 @@ export function Home() {
       description: "스토리 2에 대한 설명입니다.",
     },
     {
-      id: 3,
+      id: 251,
       title: "별마당도서관",
       imageUrl: "/image/slider-image3.jpg",
       description: "스토리 3에 대한 설명입니다.",
@@ -193,18 +148,11 @@ export function Home() {
     },
   ];
 
-  const handleEventClick = (eventId) => {
-    const event = events.find((e) => e.id === eventId);
-    setSelectedEvent(event);
-  };
 
   const handleStoryClick = (storyId) => {
     navigate(`/board/${storyId}`);
   };
 
-  const handleBannerClick = () => {
-    navigate("/event");
-  };
 
   return (
     <Box mt={10} bg="gray.50" p={4}>
@@ -283,62 +231,6 @@ export function Home() {
           </Slider>
         </Box>
         <Divider />
-
-        {/* Banner Section */}
-        <Center w="100%">
-          <Box
-            w={{ base: "100%", md: "80%", lg: "1500px" }}
-            mt={8}
-            p={6}
-            bgImage="url('/image/banner-image.jpg')"
-            bgSize="cover"
-            bgPosition="center"
-            borderRadius="lg"
-            display="flex"
-            justifyContent="center"
-            alignItems="center"
-            height="200px"
-            color="white"
-            textAlign="center"
-          >
-            <VStack spacing={4}>
-              <Heading as="h2" size="lg">
-                (예정)
-              </Heading>
-              <Button colorScheme="teal" size="lg" onClick={handleBannerClick}>
-                More
-              </Button>
-            </VStack>
-          </Box>
-        </Center>
-
-        {/* Banner Section2 */}
-        <Center w="100%">
-          <Box
-            w={{ base: "100%", md: "80%", lg: "1500px" }}
-            mt={8}
-            p={6}
-            bgImage="url('/image/baner-image2.png')"
-            bgSize="cover"
-            bgPosition="center"
-            borderRadius="lg"
-            display="flex"
-            justifyContent="center"
-            alignItems="center"
-            height="200px"
-            color="white"
-            textAlign="center"
-          >
-            <VStack spacing={4}>
-              <Heading as="h2" size="lg">
-                (예정)
-              </Heading>
-              <Button colorScheme="teal" size="lg" onClick={handleBannerClick}>
-                More
-              </Button>
-            </VStack>
-          </Box>
-        </Center>
       </VStack>
 
       <Box mt={8}>
