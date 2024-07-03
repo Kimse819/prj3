@@ -114,36 +114,36 @@ export function Home() {
       id: 1,
       title: "북촌한옥마을",
       imageUrl: "/image/slider-image1.jpg",
-      description: "북촌한옥마을에 대한 설명입니다.",
+      description: "북촌한옥마을 리뷰",
     },
     {
       id: 2,
       title: "흥인지문",
       imageUrl: "/image/slider-image2.png",
-      description: "스토리 2에 대한 설명입니다.",
+      description: "흥인지문 후기",
     },
     {
-      id: 251,
-      title: "별마당도서관",
-      imageUrl: "/image/slider-image3.jpg",
-      description: "스토리 3에 대한 설명입니다.",
+      id: 3,
+      title: "불국사",
+      imageUrl: "/image/불국사.jpg",
+      description: "불국사 후기 글",
     },
     {
       id: 4,
-      title: "스토리 4",
-      imageUrl: "/image/slider-image4.jpg",
-      description: "스토리 4에 대한 설명입니다.",
+      title: "첨성대",
+      imageUrl: "/image/image-2.webp",
+      description: "첨성대 후기 글",
     },
     {
       id: 5,
-      title: "스토리 5",
-      imageUrl: "/image/slider-image5.jpg",
+      title: "해운대",
+      imageUrl: "/image/busan.jpeg",
       description: "스토리 5에 대한 설명입니다.",
     },
     {
       id: 6,
-      title: "스토리 6",
-      imageUrl: "/image/slider-image6.jpg",
+      title: "성산일출봉",
+      imageUrl: "/image/Jeju.jpg",
       description: "스토리 6에 대한 설명입니다.",
     },
   ];
@@ -152,7 +152,6 @@ export function Home() {
   const handleStoryClick = (storyId) => {
     navigate(`/board/${storyId}`);
   };
-
 
   return (
     <Box mt={10} bg="gray.50" p={4}>

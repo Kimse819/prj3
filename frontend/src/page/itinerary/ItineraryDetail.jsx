@@ -591,7 +591,7 @@ export function ItineraryDetail() {
                       height={"240px"}
                       cursor={"pointer"}
                       onClick={() => {
-                        setId(item.id);
+                        setContentId(item.id);
                         onOpenDetail();
                       }}
                       transition="transform 0.2s"
@@ -603,12 +603,19 @@ export function ItineraryDetail() {
                     >
                       <Box
                         height={"190px"}
+                        width={"100%"}
                         display="flex"
                         alignItems="center"
                         justifyContent="center"
+                        overflow="hidden" // Ensure the image doesn't overflow its container
                       >
                         {item.firstImage1 ? (
-                          <Image objectFit={"cover"} src={item.firstImage1} />
+                          <Image
+                            objectFit="cover"
+                            width="100%"
+                            height="100%"
+                            src={item.firstImage1}
+                          />
                         ) : (
                           <Text>이미지 없음</Text>
                         )}

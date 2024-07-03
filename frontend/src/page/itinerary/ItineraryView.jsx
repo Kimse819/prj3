@@ -89,6 +89,7 @@ export function ItineraryView() {
   } = useDisclosure();
   const toast = useToast();
   const navigate = useNavigate();
+  const startDate = location.state?.startDate || "";
 
   // 기존 일정
   useEffect(() => {
@@ -316,7 +317,6 @@ export function ItineraryView() {
 
   if (itinerary !== null) {
     for (let i = 1; i <= itinerary.days; i++) {
-      // 장소 목록
       dayPlan.push(
         <Box
           key={i}
@@ -325,41 +325,58 @@ export function ItineraryView() {
           borderWidth={1}
           borderRadius="md"
           boxShadow="md"
+          bg="white"
         >
           <Box>
-            <Stack spacing={2} mb={4}>
-              <Heading size="md">
-                {moment(itinerary.startDate)
-                  .add(i - 1, "d")
-                  .format("MM-DD")}
-                <Text fontSize="md">(day{[i]})</Text>
-                <Flex
-                  justifyContent="space-between"
-                  fontSize={"md"}
-                  mt={5}
-                  mx={10}
+            <Stack spacing={4} mb={4}>
+              <Flex alignItems="center" justifyContent="space-between">
+                <Heading size="md">
+                  {moment(itinerary).add(i - 1, "d").format("MM-DD")}
+                  <Text fontSize="sm" color="gray.500">
+                    (day{i})
+                  </Text>
+                </Heading>
+                <Button
+                  size="sm"
+                  colorScheme="blue"
+                  onClick={() => {
+                    setIsEdit(false);
+                    onOpenList();
+                    setDay(i);
+                  }}
                 >
-                  <Text>장소명</Text>
-                  <Text>메모</Text>
-                  <Text>방문시각</Text>
-                  <Text></Text>
-                </Flex>
-              </Heading>
+                  장소추가
+                </Button>
+              </Flex>
+              <Flex
+                justifyContent="space-between"
+                fontSize="sm"
+                fontWeight="bold"
+                mt={3}
+                px={4}
+              >
+                <Text flex={1}>장소</Text>
+                <Text flex={2}>메모</Text>
+                <Text flex={1}>방문시각</Text>
+                <Text flex={1}></Text>
+              </Flex>
               {visitList.map((item, index) => {
-                if (item.visitDay === i)
+                if (item.visitDay === i) {
                   return (
                     <Flex
                       justifyContent="space-between"
                       key={index}
                       alignItems="center"
-                      mx={10}
+                      px={4}
+                      py={2}
+                      bg="gray.50"
+                      borderRadius="md"
+                      mb={2}
                     >
-                      <Box>{item.title}</Box>
-                      <Box>{item.description}</Box>
-                      <Box>
-                        {moment(item.visitTime, "HH:mm:ss").format("HH:mm")}
-                      </Box>
-                      <Box>
+                      <Box flex={1}>{item.title}</Box>
+                      <Box flex={2}>{item.description}</Box>
+                      <Box flex={1}>{item.visitTime}</Box>
+                      <Box flex={1}>
                         <Button
                           size="sm"
                           colorScheme="green"
@@ -368,6 +385,7 @@ export function ItineraryView() {
                             setSelectedIndex(item.index);
                             handleEditVisit(item, index);
                           }}
+                          mr={2}
                         >
                           수정
                         </Button>
@@ -381,19 +399,12 @@ export function ItineraryView() {
                       </Box>
                     </Flex>
                   );
+                }
+                return null;
               })}
             </Stack>
-            <Button
-              onClick={() => {
-                setIsEdit(false);
-                onOpenList();
-                setDay(i);
-              }}
-            >
-              장소추가
-            </Button>
           </Box>
-        </Box>,
+        </Box>
       );
     }
   }
@@ -403,7 +414,7 @@ export function ItineraryView() {
     const addList = visitList.filter((item) => !item.id);
 
     axios
-      .put(`/api/itinerary/${id}/modify/detail`, modifyList)
+      .put(`/api/itinerary/${itinerary.id}/modify/detail`, modifyList)
       .then((res) => {
         axios
           .post(`/api/itinerary/add/detail`, addList)
@@ -414,20 +425,20 @@ export function ItineraryView() {
       .catch()
       .finally(() => {
         toast({
-          description: "일정이 수정되었습니다.",
-          status: "success",
-          position: "top",
+          description: '일정이 수정되었습니다.',
+          status: 'success',
+          position: 'top',
         });
         navigate(`/itinerary`);
       });
   }
 
   function handleDeleteItinerary() {
-    axios.delete(`/api/itinerary/${id}`).then(() => {
+    axios.delete(`/api/itinerary/${itinerary.id}`).then(() => {
       toast({
-        description: "일정이 삭제되었습니다.",
-        status: "success",
-        position: "top",
+        description: '일정이 삭제되었습니다.',
+        status: 'success',
+        position: 'top',
       });
       navigate(`/itinerary`);
     });
@@ -446,12 +457,13 @@ export function ItineraryView() {
       borderWidth={1}
       borderRadius="md"
       boxShadow="md"
+      bg="gray.100"
     >
       <Heading>일정</Heading>
       {dayPlan}
 
       <Center mt={10} gap={2}>
-        <Button onClick={() => navigate("/itinerary")}>목록</Button>
+        <Button onClick={() => navigate('/itinerary')}>목록</Button>
         <Button
           marginLeft="auto"
           onClick={handleEditItinerary}
