@@ -192,7 +192,7 @@ export function Home() {
 
         <Box>
           <Heading as="h2" size="xl" mb={4} ml={5} color="teal.700">
-            스토리
+            최근 게시글
           </Heading>
           <Slider {...settings}>
             {stories.map((story) => (

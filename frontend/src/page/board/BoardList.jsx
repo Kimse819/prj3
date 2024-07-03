@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link, useNavigate, useSearchParams } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import {
   Badge,
   Box,
@@ -76,6 +76,8 @@ export function BoardList() {
   const tableHeaderBg = useColorModeValue("gray.100", "gray.700");
   const buttonBgColor = useColorModeValue("teal.50", "teal.700");
 
+  function handleClickWrite() {}
+
   return (
     <Box p={8} bg={bgColor} minH="100vh">
       <Heading
@@ -117,9 +119,11 @@ export function BoardList() {
               검색
             </Button>
           </Stack>
-          <Link to="/write">
-            <Button colorScheme="green">글쓰기</Button>
-          </Link>
+          <Box>
+            <Button onClick={handleClickWrite} colorScheme="green">
+              글쓰기
+            </Button>
+          </Box>
         </Flex>
       </Box>
       {boardList.length === 0 && <Center>조회 결과가 없습니다.</Center>}

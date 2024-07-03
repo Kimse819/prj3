@@ -85,6 +85,12 @@ export function ItineraryList() {
             </Tr>
           </Thead>
           <Tbody>
+            {itinerary.length === 0 && (
+              <Tr>
+                <Td></Td>
+                <Td textAlign="center">일정을 작성해보세요!</Td>
+              </Tr>
+            )}
             {itinerary.map((item, index) => (
               <Tr key={index}>
                 <Td textAlign="center">
