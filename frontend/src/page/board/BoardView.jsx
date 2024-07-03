@@ -1,15 +1,12 @@
 import {
   Box,
   Button,
-  Card,
-  CardBody,
   Center,
   Container,
   Flex,
   FormControl,
   FormLabel,
   Heading,
-  Image,
   Input,
   Modal,
   ModalBody,
@@ -18,7 +15,6 @@ import {
   ModalHeader,
   ModalOverlay,
   Spinner,
-  Textarea,
   useDisclosure,
   useToast,
   VStack,
@@ -42,7 +38,19 @@ export function BoardView() {
     axios
       .get(`/api/board/${id}`)
       .then((res) => {
-        console.log(res.data.board);
+        const data = res.data.board;
+        const files = data.fileList;
+        if (files) {
+          let newContent = data.content;
+
+          for (let i = 0; i < files.length; i++) {
+            newContent = newContent.replaceAll(
+              data.fileList[i].name,
+              data.fileList[i].src,
+            );
+          }
+          data.content = newContent;
+        }
         setBoard(res.data.board);
       })
       .catch((err) => {
@@ -124,19 +132,28 @@ export function BoardView() {
           <Box>
             <FormControl>
               <FormLabel fontWeight="bold">본문</FormLabel>
-              <Textarea readOnly value={board.content} minH="200px" />
+              <Box
+                mt={2}
+                minH="500px"
+                px={5}
+                py={4}
+                borderRadius={5}
+                outlineColor="#3182ce"
+                border="1px solid #E5EAF1"
+                dangerouslySetInnerHTML={{ __html: board.content }}
+              ></Box>
             </FormControl>
           </Box>
-          <Box>
-            {board.fileList &&
-              board.fileList.map((file) => (
-                <Card m={3} key={file.name}>
-                  <CardBody>
-                    <Image w={"100%"} src={file.src} />
-                  </CardBody>
-                </Card>
-              ))}
-          </Box>
+          {/*<Box>*/}
+          {/*  {board.fileList &&*/}
+          {/*    board.fileList.map((file) => (*/}
+          {/*      <Card m={3} key={file.name}>*/}
+          {/*        <CardBody>*/}
+          {/*          <Image w={"100%"} src={file.src} />*/}
+          {/*        </CardBody>*/}
+          {/*      </Card>*/}
+          {/*    ))}*/}
+          {/*</Box>*/}
           {account.hasAccess(board.memberId) && (
             <Center gap={2}>
               <Button
