@@ -163,7 +163,7 @@ export function BoardWrite() {
               }}
             />
             <FormHelperText>
-              총 용량은 20MB, 한 파일은 10MB를 초과할 수 없습니다!
+              총 용량은 100MB, 한 파일은 50MB를 초과할 수 없습니다!
             </FormHelperText>
           </FormControl>
           {files.length > 0 && (

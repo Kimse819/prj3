@@ -8,6 +8,7 @@ import {
   Textarea,
   useToast,
   VStack,
+  Heading,
 } from "@chakra-ui/react";
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
@@ -67,24 +68,33 @@ export function BoardEdit() {
 
   return (
     <Box
-      maxW="md"
+      maxW="lg"
       mx="auto"
       mt={8}
-      p={4}
+      p={6}
       borderWidth={1}
-      borderRadius="md"
-      boxShadow="md"
+      borderRadius="lg"
+      boxShadow="lg"
+      bg="white"
     >
-      <VStack as="form" spacing={4} onSubmit={handleSubmit}>
+      <Heading as="h1" size="lg" textAlign="center" mb={6} color="deepskyblue">
+        게시글 수정
+      </Heading>
+      <VStack as="form" spacing={5} onSubmit={handleSubmit}>
         <FormControl id="title" isRequired>
           <FormLabel>제목</FormLabel>
-          <Input value={title} onChange={(e) => setTitle(e.target.value)} />
+          <Input
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+            placeholder="제목을 입력하세요"
+          />
         </FormControl>
         <FormControl id="content" isRequired>
           <FormLabel>내용</FormLabel>
           <Textarea
             value={content}
             onChange={(e) => setContent(e.target.value)}
+            placeholder="내용을 입력하세요"
           />
         </FormControl>
         <FormControl id="image">
@@ -96,6 +106,7 @@ export function BoardEdit() {
           <Input
             value={touristSpot}
             onChange={(e) => setTouristSpot(e.target.value)}
+            placeholder="관광지 이름을 입력하세요"
           />
         </FormControl>
         <FormControl id="schedule">
@@ -103,9 +114,10 @@ export function BoardEdit() {
           <Input
             value={schedule}
             onChange={(e) => setSchedule(e.target.value)}
+            placeholder="일정을 입력하세요"
           />
         </FormControl>
-        <Button colorScheme="teal" type="submit">
+        <Button colorScheme="blue" size="lg" width="full" type="submit">
           수정
         </Button>
       </VStack>
