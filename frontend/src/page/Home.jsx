@@ -25,33 +25,9 @@ export function Home() {
   const [contents2, setContents2] = useState([]);
   const [contents2Area, setContents2Area] = useState("");
   const [selectedStory, setSelectedStory] = useState(null);
-  const [selectedEvent, setSelectedEvent] = useState(null);
 
   const navigate = useNavigate();
 
-  const EventCard = ({ event, onClick }) => (
-    <Box
-      borderWidth="1px"
-      borderRadius="lg"
-      overflow="hidden"
-      _hover={{ shadow: "lg", transform: "scale(1.05)", transition: "0.3s" }}
-      onClick={() => onClick(event.id)}
-      cursor="pointer"
-      bg="white"
-    >
-      <AspectRatio ratio={16 / 9}>
-        <Image src={event.imageUrl} alt={event.title} />
-      </AspectRatio>
-      <Box p={4}>
-        <Heading as="h3" size="md" color="teal.600">
-          {event.title}
-        </Heading>
-        <Text mt={2} color="gray.600">
-          {event.description}
-        </Text>
-      </Box>
-    </Box>
-  );
 
   const TravelCard = ({ imageSrc, title, description, id, rating }) => (
     <Box
@@ -133,77 +109,48 @@ export function Home() {
     autoplaySpeed: 3000,
   };
 
-  const events = [
-    {
-      id: 1,
-      title: "광화문 관람 패키지",
-      description: "판매가 : 550,000~",
-      imageUrl: "/image/event-image.png",
-    },
-    {
-      id: 2,
-      title: "경주 여행 패키지",
-      description: "판매가 : 700,000",
-      imageUrl: "/image/event-image2.jpg",
-    },
-    {
-      id: 3,
-      title: "광명동굴 패키지",
-      description: "판매가 : 400,000",
-      imageUrl: "/image/event-image3.jpg",
-    },
-  ];
-
   const stories = [
     {
       id: 1,
       title: "북촌한옥마을",
       imageUrl: "/image/slider-image1.jpg",
-      description: "북촌한옥마을에 대한 설명입니다.",
+      description: "북촌한옥마을 리뷰",
     },
     {
       id: 2,
       title: "흥인지문",
       imageUrl: "/image/slider-image2.png",
-      description: "스토리 2에 대한 설명입니다.",
+      description: "흥인지문 후기",
     },
     {
       id: 3,
-      title: "별마당도서관",
-      imageUrl: "/image/slider-image3.jpg",
-      description: "스토리 3에 대한 설명입니다.",
+      title: "불국사",
+      imageUrl: "/image/불국사.jpg",
+      description: "불국사 후기 글",
     },
     {
       id: 4,
-      title: "스토리 4",
-      imageUrl: "/image/slider-image4.jpg",
-      description: "스토리 4에 대한 설명입니다.",
+      title: "첨성대",
+      imageUrl: "/image/image-2.webp",
+      description: "첨성대 후기 글",
     },
     {
       id: 5,
-      title: "스토리 5",
-      imageUrl: "/image/slider-image5.jpg",
+      title: "해운대",
+      imageUrl: "/image/busan.jpeg",
       description: "스토리 5에 대한 설명입니다.",
     },
     {
       id: 6,
-      title: "스토리 6",
-      imageUrl: "/image/slider-image6.jpg",
+      title: "성산일출봉",
+      imageUrl: "/image/Jeju.jpg",
       description: "스토리 6에 대한 설명입니다.",
     },
   ];
 
-  const handleEventClick = (eventId) => {
-    const event = events.find((e) => e.id === eventId);
-    setSelectedEvent(event);
-  };
 
   const handleStoryClick = (storyId) => {
     navigate(`/board/${storyId}`);
-  };
-
-  const handleBannerClick = () => {
-    navigate("/event");
   };
 
   return (
@@ -283,62 +230,6 @@ export function Home() {
           </Slider>
         </Box>
         <Divider />
-
-        {/* Banner Section */}
-        <Center w="100%">
-          <Box
-            w={{ base: "100%", md: "80%", lg: "1500px" }}
-            mt={8}
-            p={6}
-            bgImage="url('/image/banner-image.jpg')"
-            bgSize="cover"
-            bgPosition="center"
-            borderRadius="lg"
-            display="flex"
-            justifyContent="center"
-            alignItems="center"
-            height="200px"
-            color="white"
-            textAlign="center"
-          >
-            <VStack spacing={4}>
-              <Heading as="h2" size="lg">
-                (예정)
-              </Heading>
-              <Button colorScheme="teal" size="lg" onClick={handleBannerClick}>
-                More
-              </Button>
-            </VStack>
-          </Box>
-        </Center>
-
-        {/* Banner Section2 */}
-        <Center w="100%">
-          <Box
-            w={{ base: "100%", md: "80%", lg: "1500px" }}
-            mt={8}
-            p={6}
-            bgImage="url('/image/baner-image2.png')"
-            bgSize="cover"
-            bgPosition="center"
-            borderRadius="lg"
-            display="flex"
-            justifyContent="center"
-            alignItems="center"
-            height="200px"
-            color="white"
-            textAlign="center"
-          >
-            <VStack spacing={4}>
-              <Heading as="h2" size="lg">
-                (예정)
-              </Heading>
-              <Button colorScheme="teal" size="lg" onClick={handleBannerClick}>
-                More
-              </Button>
-            </VStack>
-          </Box>
-        </Center>
       </VStack>
 
       <Box mt={8}>

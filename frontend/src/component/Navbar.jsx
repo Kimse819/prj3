@@ -62,7 +62,7 @@ export function Navbar() {
   const images = [
     "/image/slider-image1.jpg",
     "/image/sea.jpg",
-    "/image/travel.jpg",
+    "/image/slider-image.jpg",
   ];
 
   return (
