@@ -315,7 +315,7 @@ export function ItineraryDetail() {
     setTime("00:00");
     onCloseVisit();
   }
-//디자인 개선
+  //디자인 개선
   for (let i = 1; i <= days; i++) {
     // 장소 목록
     dayPlan.push(
@@ -332,7 +332,9 @@ export function ItineraryDetail() {
           <Stack spacing={4} mb={4}>
             <Flex alignItems="center" justifyContent="space-between">
               <Heading size="md">
-                {moment(startDate).add(i - 1, "d").format("MM-DD")}
+                {moment(startDate)
+                  .add(i - 1, "d")
+                  .format("MM-DD")}
                 <Text fontSize="sm" color="gray.500">
                   (day{i})
                 </Text>
@@ -405,7 +407,7 @@ export function ItineraryDetail() {
             })}
           </Stack>
         </Box>
-      </Box>
+      </Box>,
     );
   }
 
@@ -591,7 +593,7 @@ export function ItineraryDetail() {
                       height={"240px"}
                       cursor={"pointer"}
                       onClick={() => {
-                        setContentId(item.id);
+                        setId(item.id);
                         onOpenDetail();
                       }}
                       transition="transform 0.2s"
@@ -734,20 +736,22 @@ export function ItineraryDetail() {
                     <Tr>
                       <Th>위치</Th>
                       <Td>
-                        <Map
-                          center={{ lat: info.mapy, lng: info.mapx }}
-                          style={{
-                            width: "100%",
-                            height: "350px",
-                            borderRadius: "10px",
-                          }}
-                          level={6}
-                        >
-                          <MapMarker
-                            style={{ border: "transparent" }}
-                            position={{ lat: info.mapy, lng: info.mapx }}
-                          ></MapMarker>
-                        </Map>
+                        {info.mapy && (
+                          <Map
+                            center={{ lat: info.mapy, lng: info.mapx }}
+                            style={{
+                              width: "100%",
+                              height: "350px",
+                              borderRadius: "10px",
+                            }}
+                            level={6}
+                          >
+                            <MapMarker
+                              style={{ border: "transparent" }}
+                              position={{ lat: info.mapy, lng: info.mapx }}
+                            ></MapMarker>
+                          </Map>
+                        )}
                       </Td>
                     </Tr>
                   </Tbody>

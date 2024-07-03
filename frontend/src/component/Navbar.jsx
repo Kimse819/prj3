@@ -98,14 +98,12 @@ export function Navbar() {
           p={6}
           fontSize={25}
           fontWeight={700}
-          color={"deepskyblue"}
+          color={"white"}
         >
           <Show below={"lg"}>
             <FontAwesomeIcon icon={faHouse} />
           </Show>
-          <Hide below={"lg"}>
-            Travel Place
-          </Hide>
+          <Hide below={"lg"}>Travel Place</Hide>
         </Center>
 
         <Center ml={4} mb={5}>
@@ -214,26 +212,6 @@ export function Navbar() {
             </Menu>
           </Center>
         )}
-
-        <Center ml={4}>
-          <Menu>
-            <MenuButton as={Button} rightIcon={<ChevronDownIcon />}>
-              고객센터
-            </MenuButton>
-            <MenuList>
-              <MenuItem onClick={() => navigate("/question")}>
-                질문 게시판
-              </MenuItem>
-              <MenuItem onClick={() => navigate("/inquiry")}>
-                1:1 문의 하기
-              </MenuItem>
-              <MenuItem onClick={() => navigate("/announcement")}>
-                공지사항
-              </MenuItem>
-              <MenuItem onClick={() => navigate("/event")}>이벤트</MenuItem>
-            </MenuList>
-          </Menu>
-        </Center>
 
         <Center
           ml={4}

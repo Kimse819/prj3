@@ -4,7 +4,8 @@ import { useNavigate, useParams } from "react-router-dom";
 import {
   Box,
   Button,
-  Center, Divider,
+  Center,
+  Divider,
   Flex,
   Heading,
   Image,
@@ -331,7 +332,9 @@ export function ItineraryView() {
             <Stack spacing={4} mb={4}>
               <Flex alignItems="center" justifyContent="space-between">
                 <Heading size="md">
-                  {moment(itinerary).add(i - 1, "d").format("MM-DD")}
+                  {moment(itinerary)
+                    .add(i - 1, "d")
+                    .format("MM-DD")}
                   <Text fontSize="sm" color="gray.500">
                     (day{i})
                   </Text>
@@ -373,9 +376,15 @@ export function ItineraryView() {
                       borderRadius="md"
                       mb={2}
                     >
-                      <Box flex={1}>{item.title}</Box>
-                      <Box flex={2}>{item.description}</Box>
-                      <Box flex={1}>{item.visitTime}</Box>
+                      <Box overflowX="auto" flex={1}>
+                        {item.title}
+                      </Box>
+                      <Box overflowX="auto" flex={2}>
+                        {item.description}
+                      </Box>
+                      <Box overflowX="auto" flex={1}>
+                        {item.visitTime}
+                      </Box>
                       <Box flex={1}>
                         <Button
                           size="sm"
@@ -404,7 +413,7 @@ export function ItineraryView() {
               })}
             </Stack>
           </Box>
-        </Box>
+        </Box>,
       );
     }
   }
@@ -425,9 +434,9 @@ export function ItineraryView() {
       .catch()
       .finally(() => {
         toast({
-          description: '일정이 수정되었습니다.',
-          status: 'success',
-          position: 'top',
+          description: "일정이 수정되었습니다.",
+          status: "success",
+          position: "top",
         });
         navigate(`/itinerary`);
       });
@@ -436,9 +445,9 @@ export function ItineraryView() {
   function handleDeleteItinerary() {
     axios.delete(`/api/itinerary/${itinerary.id}`).then(() => {
       toast({
-        description: '일정이 삭제되었습니다.',
-        status: 'success',
-        position: 'top',
+        description: "일정이 삭제되었습니다.",
+        status: "success",
+        position: "top",
       });
       navigate(`/itinerary`);
     });
@@ -463,7 +472,7 @@ export function ItineraryView() {
       {dayPlan}
 
       <Center mt={10} gap={2}>
-        <Button onClick={() => navigate('/itinerary')}>목록</Button>
+        <Button onClick={() => navigate("/itinerary")}>목록</Button>
         <Button
           marginLeft="auto"
           onClick={handleEditItinerary}
@@ -733,14 +742,31 @@ export function ItineraryView() {
         </ModalContent>
       </Modal>
       {/* 상세보기 모달 */}
-      <Modal isOpen={isOpenDetail} onClose={onCloseDetail} scrollBehavior="inside" size="5xl">
+      <Modal
+        isOpen={isOpenDetail}
+        onClose={onCloseDetail}
+        scrollBehavior="inside"
+        size="5xl"
+      >
         <ModalOverlay />
         <ModalContent>
           <ModalHeader />
           <ModalCloseButton />
           <ModalBody>
-            <Box mt={4} mx={{ base: 4, lg: 10 }} p={6} borderRadius="lg" boxShadow="2xl" bg="white">
-              <Heading textAlign="center" mb={8} color="teal.600" fontSize="2xl">
+            <Box
+              mt={4}
+              mx={{ base: 4, lg: 10 }}
+              p={6}
+              borderRadius="lg"
+              boxShadow="2xl"
+              bg="white"
+            >
+              <Heading
+                textAlign="center"
+                mb={8}
+                color="teal.600"
+                fontSize="2xl"
+              >
                 {info.title}
               </Heading>
 
@@ -796,13 +822,21 @@ export function ItineraryView() {
                     <Tr>
                       <Th>위치</Th>
                       <Td>
-                        <Map
-                          center={{ lat: info.mapy, lng: info.mapx }}
-                          style={{ width: "100%", height: "350px", borderRadius: "10px" }}
-                          level={6}
-                        >
-                          <MapMarker position={{ lat: info.mapy, lng: info.mapx }} />
-                        </Map>
+                        {info.mapy && (
+                          <Map
+                            center={{ lat: info.mapy, lng: info.mapx }}
+                            style={{
+                              width: "100%",
+                              height: "350px",
+                              borderRadius: "10px",
+                            }}
+                            level={6}
+                          >
+                            <MapMarker
+                              position={{ lat: info.mapy, lng: info.mapx }}
+                            />
+                          </Map>
+                        )}
                       </Td>
                     </Tr>
                   </Tbody>
@@ -810,7 +844,13 @@ export function ItineraryView() {
               </Box>
 
               {introInfo && (
-                <Box mb={8} p={6} borderRadius="lg" boxShadow="lg" bg="gray.100">
+                <Box
+                  mb={8}
+                  p={6}
+                  borderRadius="lg"
+                  boxShadow="lg"
+                  bg="gray.100"
+                >
                   <Text fontSize="lg" fontWeight="bold" mb={4}>
                     소개정보
                   </Text>
@@ -820,7 +860,11 @@ export function ItineraryView() {
                         <React.Fragment key={item.number}>
                           <Tr>
                             <Th>{item.infoName}</Th>
-                            <Td dangerouslySetInnerHTML={{ __html: item.infoText }} />
+                            <Td
+                              dangerouslySetInnerHTML={{
+                                __html: item.infoText,
+                              }}
+                            />
                           </Tr>
                           {index < introInfo.length - 1 && (
                             <Tr>
@@ -837,7 +881,13 @@ export function ItineraryView() {
               )}
 
               {info2 && (
-                <Box mb={8} p={6} borderRadius="lg" boxShadow="lg" bg="gray.100">
+                <Box
+                  mb={8}
+                  p={6}
+                  borderRadius="lg"
+                  boxShadow="lg"
+                  bg="gray.100"
+                >
                   <Text fontSize="lg" fontWeight="bold" mb={4}>
                     상세정보
                   </Text>
@@ -848,22 +898,29 @@ export function ItineraryView() {
                           <Tr>
                             <Th>{item.infoName}</Th>
                             <Td>
-                              {item.infoName === "객실사진" && item.infoText.trim().length > 0 ? (
+                              {item.infoName === "객실사진" &&
+                              item.infoText.trim().length > 0 ? (
                                 <Box display="flex" flexWrap="wrap" gap={4}>
-                                  {item.infoText.split(",").map((imgUrl, idx) => (
-                                    <Image
-                                      key={idx}
-                                      src={imgUrl.trim()}
-                                      borderRadius="md"
-                                      objectFit="cover"
-                                      maxH="300px"
-                                      w="100%"
-                                      mb={4}
-                                    />
-                                  ))}
+                                  {item.infoText
+                                    .split(",")
+                                    .map((imgUrl, idx) => (
+                                      <Image
+                                        key={idx}
+                                        src={imgUrl.trim()}
+                                        borderRadius="md"
+                                        objectFit="cover"
+                                        maxH="300px"
+                                        w="100%"
+                                        mb={4}
+                                      />
+                                    ))}
                                 </Box>
                               ) : (
-                                <Text dangerouslySetInnerHTML={{ __html: item.infoText }} />
+                                <Text
+                                  dangerouslySetInnerHTML={{
+                                    __html: item.infoText,
+                                  }}
+                                />
                               )}
                             </Td>
                           </Tr>
