@@ -170,6 +170,8 @@ export function BoardList() {
                 onClick={() => handlePageClick(1)}
                 colorScheme="gray"
                 variant="outline"
+                m={1}
+                w={10}
               >
                 <FontAwesomeIcon icon={faAnglesLeft} />
               </Button>
@@ -177,6 +179,8 @@ export function BoardList() {
                 onClick={() => handlePageClick(pageInfo.prevPageNum)}
                 colorScheme="gray"
                 variant="outline"
+                m={1}
+                w={10}
               >
                 <FontAwesomeIcon icon={faAngleLeft} />
               </Button>
@@ -196,10 +200,22 @@ export function BoardList() {
           ))}
           {pageInfo.nextPageNum && (
             <>
-              <Button onClick={() => handlePageClick(pageInfo.nextPageNum)}>
+              <Button
+                onClick={() => handlePageClick(pageInfo.nextPageNum)}
+                colorScheme="gray"
+                variant="outline"
+                m={1}
+                w={10}
+              >
                 <FontAwesomeIcon icon={faAngleRight} />
               </Button>
-              <Button onClick={() => handlePageClick(pageInfo.lastPageNum)}>
+              <Button
+                onClick={() => handlePageClick(pageInfo.lastPageNum)}
+                colorScheme="gray"
+                variant="outline"
+                m={1}
+                w={10}
+              >
                 <FontAwesomeIcon icon={faAnglesRight} />
               </Button>
             </>

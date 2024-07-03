@@ -11,7 +11,10 @@ import {
   Input,
   useToast,
   VStack,
+  HStack,
+  IconButton,
 } from "@chakra-ui/react";
+import { CloseIcon } from "@chakra-ui/icons";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { LoginContext } from "../../component/LoginProvider.jsx";
@@ -39,6 +42,9 @@ export function BoardWrite() {
         image.src = event.target.result;
         setImages((prev) => [...prev, event.target.result]);
         image.style.maxHeight = "100%";
+        image.style.maxWidth = "100%";
+        image.style.marginTop = "10px";
+        image.style.borderRadius = "8px";
         editorRef.current.appendChild(image);
         updateContent();
       };
@@ -89,10 +95,17 @@ export function BoardWrite() {
       });
   }
 
+
   //file 목록 작성
   const fileNameList = files.map((file, index) => (
     <li key={index}>{file.name}</li>
   ));
+
+  function removeFile(index) {
+    setFiles(files.filter((_, i) => i !== index));
+    setImages(images.filter((_, i) => i !== index));
+  }
+
 
   return (
     <Box py={8} px={4} minH="100vh" bg="gray.50">
@@ -143,7 +156,7 @@ export function BoardWrite() {
             ></Box>
           </FormControl>
           <FormControl>
-            <FormLabel>파일</FormLabel>
+            <FormLabel fontWeight="bold">파일</FormLabel>
             <Input
               multiple
               type="file"
@@ -159,11 +172,22 @@ export function BoardWrite() {
             </FormHelperText>
           </FormControl>
           {files.length > 0 && (
-            <Box>
+            <Box width="100%">
               <Heading size="sm" mt={4} mb={2}>
                 첨부 파일
               </Heading>
-              <ul>{fileNameList}</ul>
+              <VStack spacing={2} align="stretch">
+                {files.map((file, index) => (
+                  <HStack key={index} justifyContent="space-between">
+                    <Box>{file.name}</Box>
+                    <IconButton
+                      size="sm"
+                      icon={<CloseIcon />}
+                      onClick={() => removeFile(index)}
+                    />
+                  </HStack>
+                ))}
+              </VStack>
             </Box>
           )}
           <Center gap={4}>
