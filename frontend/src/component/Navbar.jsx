@@ -98,7 +98,7 @@ export function Navbar() {
           p={6}
           fontSize={25}
           fontWeight={700}
-          color={"white"}
+          color={"deepskyblue"}
         >
           <Show below={"lg"}>
             <FontAwesomeIcon icon={faHouse} />
