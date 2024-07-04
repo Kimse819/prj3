@@ -25,7 +25,7 @@ import { ItineraryDate } from "./page/itinerary/ItineraryDate.jsx";
 import { ItineraryDetail } from "./page/itinerary/ItineraryDetail.jsx";
 import { ItineraryList } from "./page/itinerary/ItineraryList.jsx";
 import { ItineraryView } from "./page/itinerary/ItineraryView.jsx";
-import { TourSearch } from "./page/tour/TourSearch.jsx"; // axios interceptor 설정
+
 const exceptionUrlList = ["https://apis.data.go.kr"];
 
 // axios interceptor 설정
@@ -59,7 +59,6 @@ const router = createBrowserRouter([
       { path: "login", element: <MemberLogin /> },
       { path: "member/list", element: <MemberList /> },
       { path: "signup", element: <MemberSignup /> },
-      { path: "tour", element: <TourSearch /> },
       { path: "tour/list", element: <TourList /> },
       { path: "tour/:id", element: <TourDetail /> },
       { path: "announcement", element: <Announcement /> },

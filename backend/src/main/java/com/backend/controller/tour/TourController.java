@@ -107,18 +107,12 @@ public class TourController {
         String catCode = service.catNameAsCode(catName);
         Integer areaCode = service.areaNameAsCode(areaName);
         Integer sigunguCode = service.sigunguNameAsCode(areaCode, sigunguName);
-//        System.out.println(STR."\{page}, \{typeId}, \{catCode}, \{areaCode}, \{sigunguCode}, \{keyword}");
-//        System.out.println(service.list(page, typeId, catCode, areaCode, sigunguCode, keyword));
 
         return service.list(page, typeId, catCode, areaCode, sigunguCode, keyword);
     }
 
     @PostMapping("get/searchOption")
     public Map<String, Object> getSearchOption(@RequestBody Map<String, Object> options) {
-//        System.out.println(options);
-//        System.out.println(options.get("contentType"));
-//        System.out.println(service.getNextSearchOption(options));
-
         return service.getNextSearchOption(options);
     }
 
