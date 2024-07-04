@@ -4,7 +4,6 @@ import { Home } from "./page/Home";
 import { BoardWrite } from "./page/board/BoardWrite";
 import { BoardList } from "./page/board/BoardList";
 import { BoardView } from "./page/board/BoardView";
-import { TourSearch } from "./page/tour/TourSearch";
 import { MemberLogin } from "./page/member/MemberLogin";
 import { MemberList } from "./page/member/MemberList";
 import { MemberSignup } from "./page/member/MemberSignup";
@@ -25,7 +24,8 @@ import axios from "axios";
 import { ItineraryDate } from "./page/itinerary/ItineraryDate.jsx";
 import { ItineraryDetail } from "./page/itinerary/ItineraryDetail.jsx";
 import { ItineraryList } from "./page/itinerary/ItineraryList.jsx";
-import { ItineraryView } from "./page/itinerary/ItineraryView.jsx"; // axios interceptor 설정
+import { ItineraryView } from "./page/itinerary/ItineraryView.jsx";
+import { TourSearch } from "./page/tour/TourSearch.jsx"; // axios interceptor 설정
 
 // axios interceptor 설정
 axios.interceptors.request.use((config) => {

@@ -35,6 +35,9 @@ export function ReviewItem({ review, isSending, setIsSending, StarIcon }) {
         <Spacer />
         {account.hasAccess(review.memberId) && (
           <Box>
+            <Button size="sm" colorScheme="green">
+              수정
+            </Button>
             <Button
               onClick={handleClickRemove}
               colorScheme="red"

@@ -76,7 +76,9 @@ export function BoardList() {
   const tableHeaderBg = useColorModeValue("gray.100", "gray.700");
   const buttonBgColor = useColorModeValue("teal.50", "teal.700");
 
-  function handleClickWrite() {}
+  function handleClickWrite() {
+    navigate(`/write`);
+  }
 
   return (
     <Box p={8} bg={bgColor} minH="100vh">
