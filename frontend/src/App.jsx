@@ -26,9 +26,13 @@ import { ItineraryDetail } from "./page/itinerary/ItineraryDetail.jsx";
 import { ItineraryList } from "./page/itinerary/ItineraryList.jsx";
 import { ItineraryView } from "./page/itinerary/ItineraryView.jsx";
 import { TourSearch } from "./page/tour/TourSearch.jsx"; // axios interceptor 설정
+const exceptionUrlList = ["https://apis.data.go.kr"];
 
 // axios interceptor 설정
 axios.interceptors.request.use((config) => {
+  if (exceptionUrlList.some((url) => config.url.startsWith(url))) {
+    return config;
+  }
   const token = localStorage.getItem("token");
   if (token) {
     config.headers.Authorization = `Bearer ${token}`;

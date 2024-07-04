@@ -14,31 +14,31 @@ export function TourSearch() {
   const [imageList, setImageList] = useState([]);
 
   useEffect(() => {
-    // setIsProcessing(true);
-    // axios
-    //   .get(`https://apis.data.go.kr/B551011/KorService1/areaCode1`, {
-    //     params: {
-    //       serviceKey: serviceKey,
-    //       MobileOS: "ETC",
-    //       MobileApp: "AppTest",
-    //       _type: "json",
-    //       numOfRows: 100,
-    //       pageNo: 1,
-    //     },
-    //   })
-    //   .then((res) => {
-    //     const data = res.data.response.body.items.item.reverse();
-    //     setArea(
-    //       data.map((item) => ({
-    //         areaCode: item.code,
-    //         name: item.name,
-    //       })),
-    //     );
-    //   })
-    //   .catch(() => console.log("get error"))
-    //   .finally(() => {
-    //     setIsProcessing(false);
-    //   });
+    setIsProcessing(true);
+    axios
+      .get(`https://apis.data.go.kr/B551011/KorService1/areaCode1`, {
+        params: {
+          serviceKey: serviceKey,
+          MobileOS: "ETC",
+          MobileApp: "AppTest",
+          _type: "json",
+          numOfRows: 100,
+          pageNo: 1,
+        },
+      })
+      .then((res) => {
+        const data = res.data.response.body.items.item.reverse();
+        setArea(
+          data.map((item) => ({
+            areaCode: item.code,
+            name: item.name,
+          })),
+        );
+      })
+      .catch(() => console.log("get error"))
+      .finally(() => {
+        setIsProcessing(false);
+      });
   }, []);
 
   // useEffect(() => {
